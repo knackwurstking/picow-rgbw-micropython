@@ -1,3 +1,5 @@
+import json
+
 import machine
 
 initial_pin_value = 1
@@ -42,3 +44,30 @@ def remove(color: str):
 
     pins[color].set_duty_cycle(0)
     del pins[color]
+
+
+def save():
+    with open("config.json", "w") as c:
+        # NOTE: tuple: color, pin, duty
+        _pins: list[tuple[str, int, int]] = []
+
+        for color in ["r", "g", "b", "w"]:
+            if color in pins:
+                pin = pins[color]
+                _pins.append((pin.color, pin.pin, pin.get_duty_cycle()))
+
+        c.write(json.dumps(_pins))
+
+
+def load():
+    with open("config.json", "r") as c:
+        # NOTE: tuple: color, pin, duty
+        _pins: list[tuple[str, int, int]] = json.load(c)
+
+        for color in pins:
+            remove(color)
+
+        for color, pin, duty in _pins:
+            pin = Pin(color, pin)
+            pin.set_duty_cycle(duty)
+            pins[color] = pin
