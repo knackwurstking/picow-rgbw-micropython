@@ -4,10 +4,15 @@ import rgbw
 def set_pin(query: dict[str, str]):
     http_status = "200 OK"
 
-    for color in query:
+    for color, value in query.items():
         if color in ["r", "g", "b", "w"]:
             try:
-                rgbw.add(color, int(query[color]))
+                value = int(value)
+                if value < 0:
+                    rgbw.remove(color)
+                    continue
+
+                rgbw.add(color, value)
             finally:
                 http_status = "500 INTERNAL SERVER ERROR"
                 continue

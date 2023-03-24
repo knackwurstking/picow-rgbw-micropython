@@ -27,7 +27,7 @@ pins: dict[str, Pin] = {}
 
 def add(color: str, pin: int):
     if color in pins:
-        remove(color, pin)
+        remove(color)
 
     pins[color] = Pin(color, pin)
 
@@ -36,10 +36,9 @@ def get(color):
     return None if color not in pins else pins[color]
 
 
-def remove(color: str, pin: int):
+def remove(color: str):
     if color not in pins:
         return
 
-    if pins[color].pin == pin:
-        pins[color].set_duty_cycle(u16_max)
-        del pins[color]
+    pins[color].set_duty_cycle(0)
+    del pins[color]
