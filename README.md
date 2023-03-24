@@ -1,7 +1,7 @@
-# pirgb-server
+# picow-rgbw
 
 <!--toc:start-->
-- [pirgb-server](#pirgb-server)
+- [picow-rgbw](#picow-rgbw)
   - [Getting Started](#getting-started)
   - [Routing](#routing)
   - [TODOs](#todos)
