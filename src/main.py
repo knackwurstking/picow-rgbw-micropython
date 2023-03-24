@@ -68,7 +68,7 @@ def handle_request(req: str):
     print(method, "|", pathname, "|", query)
 
     # POST: "/rgbw/set_pin" ? r=<1-28> & g=<1-28> & b=<1-28> & w=<1-28>
-    if pathname.startswith("rgbw/set_pin") and (method.upper() == "POST"):
+    if pathname.startswith("/rgbw/set_pin") and (method.upper() == "POST"):
         header, body = rgbwhandler.set_pin(parse_query(query))
 
     # POST: "/rgbw/set_pwm" ? r=<0-100%> & g=<0-100%> & b=<0-100%> & w=<0-100%>
