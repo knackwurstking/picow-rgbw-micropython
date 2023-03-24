@@ -28,5 +28,8 @@ Control rgbw stripes (pwm mode)
 ## TODOs
 
 - [x] Add a temperature entry to info\_page
+- [ ] Add handler: get duty (will return the rgbw duty cycle like this `100 100 100 -1` for max white) (-1 === not set)
+- [ ] Add handler: get pins (will return the rgbw pins like this `0 1 2 -1`) (-1 === not set)
+- [ ] Can i store data (rgbw.py) local (on the picow?)
 - [x] README: Add a routing table
 - [ ] README: Add a getting started section
