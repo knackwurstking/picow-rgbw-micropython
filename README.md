@@ -23,8 +23,8 @@ Control rgbw stripes (pwm mode)
 | GET    | `/` | Get info\_page (text/text) |
 | GET    | `/device` | Get application info and version |
 | POST   | `/rgbw/set_pwm?r=<0-100>&g=<0-100>&b=<0-100>&w=<0-100>` | Set duty cycle for pins (rgbw) |
-| POST   | `/rgbw/set_pin?r=<-1/1-28>&g=<-1/1-28>&b=<-1/1-28>&w=<-1/1-28>` | Set pins in use for rgbw (-1 for remove pin for color) |
-| GET    | `/rgbw/get_pins` | get pins (-1 if pin not set) for rgbw |
+| POST   | `/rgbw/set_pin?r=<-1/1-28>&g=<-1/1-28>&b=<-1/1-28>&w=<-1/1-28>` | Set rgbw pins (-1 to remove) |
+| GET    | `/rgbw/get_pins` | get rgbw pins (-1 if pin not set) |
 | GET    | `/rgbw/get_duty` | get the current duty (-1 if pin not set) for rgbw (0-100%) |
 
 ## TODOs
