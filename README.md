@@ -22,8 +22,8 @@ Control rgbw stripes (pwm mode)
 |--------|----------|-------------|
 | GET    | `/` | Get info\_page (text/text) |
 | GET    | `/device` | Get application info and version |
-| POST   | `/set_rgbw_pwm?r=<0-100>&g=<0-100>&b=<0-100>&w=<0-100>` | Set duty cycle for pins (rgbw) |
-| POST   | `/set_rgbw_pin?r=<1-28>&g=<1-28>&b=<1-28>&w=<1-28>` | Set pins in use for rgbw |
+| POST   | `/set_pwm?r=<0-100>&g=<0-100>&b=<0-100>&w=<0-100>` | Set duty cycle for pins (rgbw) |
+| POST   | `/set_pin?r=<1-28>&g=<1-28>&b=<1-28>&w=<1-28>` | Set pins in use for rgbw |
 
 ## TODOs
 
