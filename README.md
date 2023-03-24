@@ -32,6 +32,6 @@ Control rgbw stripes (pwm mode)
 - [x] Add a temperature entry to info\_page
 - [x] Add handler: get duty (will return the rgbw duty cycle like this `100 100 100 -1` for max white) (-1 === not set)
 - [x] Add handler: get pins (will return the rgbw pins like this `0 1 2 -1`) (-1 === not set)
-- [ ] Save all pins in use to the local storage?
+- [x] Save/Load pins configuration
 - [x] README: Add a routing table
 - [ ] README: Add a getting started section
