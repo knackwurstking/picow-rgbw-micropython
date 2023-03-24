@@ -29,3 +29,35 @@ def set_pwm(query: dict[str, str]):
 
     header = f"HTTP/1.0 {http_status}\r\nContent-Type: text/text\r\n\r\n"
     return header, ""
+
+
+def get_pins():
+    header = "HTTP/1.0 200 OK\r\nContent-Type: text/text\r\n\r\n"
+    body = ""
+
+    for color in ["r", "g", "b", "w"]:
+        if color in rgbw.pins:
+            pin = rgbw.pins[color]
+            body += f"{pin.pin} "
+        else:
+            body += "-1 "
+
+    body = body.rstrip(" ") + "\n"
+
+    return header, body
+
+
+def get_duty():
+    header = "HTTP/1.0 200 OK\r\nContent-Type: text/text\r\n\r\n"
+    body = ""
+
+    for color in ["r", "g", "b", "w"]:
+        if color in rgbw.pins:
+            pin = rgbw.pins[color]
+            body += f"{pin.get_duty_cycle()} "
+        else:
+            body += "-1 "
+
+    body = body.rstrip(" ") + "\n"
+
+    return header, body

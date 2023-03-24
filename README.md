@@ -24,12 +24,14 @@ Control rgbw stripes (pwm mode)
 | GET    | `/device` | Get application info and version |
 | POST   | `/rgbw/set_pwm?r=<0-100>&g=<0-100>&b=<0-100>&w=<0-100>` | Set duty cycle for pins (rgbw) |
 | POST   | `/rgbw/set_pin?r=<1-28>&g=<1-28>&b=<1-28>&w=<1-28>` | Set pins in use for rgbw |
+| GET    | `/rgbw/get_pins` | get pins (-1 if pin not set) for rgbw |
+| GET    | `/rgbw/get_duty` | get the current duty (-1 if pin not set) for rgbw (0-100%) |
 
 ## TODOs
 
 - [x] Add a temperature entry to info\_page
-- [ ] Add handler: get duty (will return the rgbw duty cycle like this `100 100 100 -1` for max white) (-1 === not set)
-- [ ] Add handler: get pins (will return the rgbw pins like this `0 1 2 -1`) (-1 === not set)
-- [ ] Can i store data for caching? (rgbw.py - save pins)
+- [x] Add handler: get duty (will return the rgbw duty cycle like this `100 100 100 -1` for max white) (-1 === not set)
+- [x] Add handler: get pins (will return the rgbw pins like this `0 1 2 -1`) (-1 === not set)
+- [ ] Save all pins in use to the local storage?
 - [x] README: Add a routing table
 - [ ] README: Add a getting started section
