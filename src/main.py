@@ -6,7 +6,7 @@ import machine
 import network
 from picozero import pico_led
 
-import handler
+import rgbwhandler
 import info
 
 
@@ -67,20 +67,20 @@ def handle_request(req: str):
 
     print(method, "|", pathname, "|", query)
 
-    # POST: "/set_pin" ? r=<1-28> & g=<1-28> & b=<1-28> & w=<1-28>
-    if pathname.startswith("/set_pin") and (method.upper() == "POST"):
-        header, body = handler.set_pin(parse_query(query))
+    # POST: "/rgbw/set_pin" ? r=<1-28> & g=<1-28> & b=<1-28> & w=<1-28>
+    if pathname.startswith("rgbw/set_pin") and (method.upper() == "POST"):
+        header, body = rgbwhandler.set_pin(parse_query(query))
 
-    # POST: "/set_pwm" ? r=<0-100%> & g=<0-100%> & b=<0-100%> & w=<0-100%>
-    elif pathname.startswith("/set_pwm") and (method.upper() == "POST"):
-        header, body = handler.set_pwm(parse_query(query))
+    # POST: "/rgbw/set_pwm" ? r=<0-100%> & g=<0-100%> & b=<0-100%> & w=<0-100%>
+    elif pathname.startswith("/rgbw/set_pwm") and (method.upper() == "POST"):
+        header, body = rgbwhandler.set_pwm(parse_query(query))
 
     # GET: "/device" - device name
     elif pathname.startswith("/device") and (method.upper() == "GET"):
-        header, body = handler.device()
+        header, body = rgbwhandler.device()
 
     elif pathname == "/" and method.upper() == "GET":
-        header, body = handler.info_page()
+        header, body = rgbwhandler.info_page()
 
     return header, body
 
