@@ -4,33 +4,42 @@ initial_pin_value = 1
 freq = 1000
 u16_max = 65535
 
-rgbw: dict[str, tuple[int, machine.PWM]] = {}
+
+class Pin:
+    def __init__(self, color: str, pin: int):
+        self.current_duty = 0  # 0-100%
+        self.color = color
+        self.pin = pin
+        self.pwm = machine.PWM(machine.Pin(pin, value=1))
+        self.pwm.freq(freq)
+        self.set_duty_cycle(0)
+
+    def set_duty_cycle(self, value: int):
+        self.pwm.duty_u16(int((1 - (value/100)) * u16_max))
+        self.current_duty = value
+
+    def get_duty_cycle(self):
+        return self.current_duty
+
+
+pins: dict[str, Pin] = {}
 
 
 def add(color: str, pin: int):
-    if color in rgbw:
+    if color in pins:
         remove(color, pin)
 
-    rgbw[color] = (pin, machine.PWM(machine.Pin(pin, value=1)))
-    rgbw[color][1].freq(freq)
-    rgbw[color][1].duty_u16(u16_max)
+    pins[color] = Pin(color, pin)
+
+
+def get(color):
+    return None if color not in pins else pins[color]
 
 
 def remove(color: str, pin: int):
-    if color not in rgbw:
+    if color not in pins:
         return
 
-    if rgbw[color][0] == pin:
-        rgbw[color][1].duty_u16(u16_max)
-        del rgbw[color]
-
-
-def set(color: str, value: int):
-    if color not in rgbw:
-        return
-
-    rgbw[color][1].duty_u16(int((1 - (value/100)) * u16_max))
-
-
-def get(color: str):
-    return None if color not in rgbw else rgbw[color]
+    if pins[color].pin == pin:
+        pins[color].set_duty_cycle(u16_max)
+        del pins[color]

@@ -11,9 +11,6 @@ def set_rgbw_pin(query: dict[str, str]):
         if color in ["r", "g", "b", "w"]:
             try:
                 rgbw.add(color, int(query[color]))
-                c = rgbw.get(color)
-                if c is not None:
-                    print(c[1])
             finally:
                 http_status = "500 INTERNAL SERVER ERROR"
                 continue
@@ -28,7 +25,8 @@ def set_rgbw_pwm(query: dict[str, str]):
     for color, value in query.items():
         if color in ["r", "g", "b", "w"]:
             try:
-                rgbw.set(color, int(value))
+                if pin := rgbw.get(color):
+                    pin.set_duty_cycle(int(value))
             finally:
                 http_status = "500 INTERNAL SERVER ERROR"
 
@@ -54,13 +52,32 @@ Temp: {pico_temp_sensor.temp}
 Freq: {rgbw.freq}
 Duty Range: 0-100 (%)
 
-R: {rgbw.rgbw["r"][0] if "r" in rgbw.rgbw else "None"} {
-        rgbw.rgbw["r"][1].duty() if "r" in rgbw.rgbw else "-"}
-G: {rgbw.rgbw["g"][0] if "g" in rgbw.rgbw else "None"} {
-        rgbw.rgbw["g"][1].duty() if "g" in rgbw.rgbw else "-"}
-B: {rgbw.rgbw["b"][0] if "b" in rgbw.rgbw else "None"} {
-        rgbw.rgbw["b"][1].duty() if "b" in rgbw.rgbw else "-"}
-W: {rgbw.rgbw["w"][0] if "w" in rgbw.rgbw else "None"} {
-        rgbw.rgbw["w"][1].duty() if "w" in rgbw.rgbw else "-"}
+| Color   | Pin | Duty |
+|---------|-----|------|
 """
+
+    if "r" in rgbw.pins:
+        pin = rgbw.pins["r"]
+        body += f"| [r]ed   | {pin.pin: 3} | {pin.get_duty_cycle(): 4} |\n"
+    else:
+        body += "| [r]ed   | --- | ---- |\n"
+
+    if "g" in rgbw.pins:
+        pin = rgbw.pins["g"]
+        body += f"| [g]reen | {pin.pin: 3} | {pin.get_duty_cycle(): 4} |\n"
+    else:
+        body += "| [g]reen | --- | ---- |\n"
+
+    if "b" in rgbw.pins:
+        pin = rgbw.pins["b"]
+        body += f"| [b]lue  | {pin.pin: 3} | {pin.get_duty_cycle(): 4} |\n"
+    else:
+        body += "| [b]lue  | --- | ---- |\n"
+
+    if "w" in rgbw.pins:
+        pin = rgbw.pins["w"]
+        body += f"| [w]hite | {pin.pin: 3} | {pin.get_duty_cycle(): 4} |\n"
+    else:
+        body += "| [w]hite | --- | ---- |\n"
+
     return header, body
