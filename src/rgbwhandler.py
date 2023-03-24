@@ -8,14 +8,25 @@ def set_pin(query: dict[str, str]):
         if color in ["r", "g", "b", "w"]:
             try:
                 value = int(value)
-                if value < 0:
-                    rgbw.remove(color)
-                    continue
+
+                if color in rgbw.pins:
+                    if value < 0:
+                        rgbw.remove(color)
+                        continue
+                    elif value == rgbw.pins[color].pin:
+                        # skip
+                        continue
 
                 rgbw.add(color, value)
-            finally:
+            except Exception as e:
                 http_status = "500 INTERNAL SERVER ERROR"
-                continue
+                print(e)
+
+    if http_status == "200 OK":
+        try:
+            rgbw.save()
+        finally:
+            pass
 
     header = f"HTTP/1.0 {http_status}\r\nContent-Type: text/text\r\n\r\n"
     return header, ""
@@ -29,8 +40,9 @@ def set_pwm(query: dict[str, str]):
             try:
                 if pin := rgbw.get(color):
                     pin.set_duty_cycle(int(value))
-            finally:
+            except Exception as e:
                 http_status = "500 INTERNAL SERVER ERROR"
+                print(e)
 
     header = f"HTTP/1.0 {http_status}\r\nContent-Type: text/text\r\n\r\n"
     return header, ""
