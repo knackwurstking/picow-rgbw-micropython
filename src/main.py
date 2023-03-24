@@ -6,8 +6,9 @@ import machine
 import network
 from picozero import pico_led
 
-import rgbwhandler
+import handler
 import info
+import rgbwhandler
 
 
 def connect():
@@ -77,10 +78,10 @@ def handle_request(req: str):
 
     # GET: "/device" - device name
     elif pathname.startswith("/device") and (method.upper() == "GET"):
-        header, body = rgbwhandler.device()
+        header, body = handler.device()
 
     elif pathname == "/" and method.upper() == "GET":
-        header, body = rgbwhandler.info_page()
+        header, body = handler.info_page()
 
     return header, body
 
