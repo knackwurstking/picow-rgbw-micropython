@@ -42,7 +42,7 @@ def serve(c):
     gc.collect()
     gc.disable()
     while True:
-        micropython.mem_info()
+        #micropython.mem_info()
         client = c.accept()[0]
 
         try:
