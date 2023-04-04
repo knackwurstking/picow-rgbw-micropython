@@ -18,9 +18,8 @@ def set_pin(query: dict[str, str]):
                         continue
 
                 rgbw.add(color, value)
-            except Exception as e:
+            except Exception:
                 http_status = "500 INTERNAL SERVER ERROR"
-                print(e)
 
     if http_status == "200 OK":
         try:
@@ -40,9 +39,8 @@ def set_pwm(query: dict[str, str]):
             try:
                 if pin := rgbw.get(color):
                     pin.set_duty_cycle(int(value))
-            except Exception as e:
+            except Exception:
                 http_status = "500 INTERNAL SERVER ERROR"
-                print(e)
 
     header = f"HTTP/1.0 {http_status}\r\nContent-Type: text/text\r\n\r\n"
     return header, ""

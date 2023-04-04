@@ -60,7 +60,6 @@ def save():
 
 
 def load():
-    print("Load pins from config.json.")
     with open("config.json", "r") as c:
         # NOTE: tuple: color, pin, duty
         _pins: list[tuple[str, int, int]] = json.load(c)
