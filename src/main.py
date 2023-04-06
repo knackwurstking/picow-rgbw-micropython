@@ -6,10 +6,11 @@ import gc
 import micropython
 import machine
 import network
+import urequests
 from picozero import pico_led
 
 import handler
-import info
+import config 
 import rgbwhandler
 
 
@@ -18,7 +19,7 @@ def connect():
     wlan = network.WLAN(network.STA_IF)
     wlan.active(True)
     wlan.config(pm = 0xa11140)  # disable power-save mode
-    wlan.connect(info.SSID, info.PASSWORD)
+    wlan.connect(config.SSID, config.PASSWORD)
 
     # Wait for connection
     while wlan.isconnected() is False:
@@ -29,7 +30,7 @@ def connect():
 
 def open_socket(ip):
     """Open a socket."""
-    a = (ip, 80)
+    a = (ip, config.PORT)
     c = socket.socket()
     c.bind(a)
     c.listen(1)
@@ -41,6 +42,7 @@ def serve(c):
     pico_led.on()
     gc.collect()
     gc.disable()
+
     while True:
         #micropython.mem_info()
         client = c.accept()[0]
@@ -62,11 +64,17 @@ def handle_request(req: str):
     query: list[str] = []
 
     with contextlib.suppress(IndexError):
+        # split http request (string)
         req_split = req.split()
+        # get the method (fist element in request split)
         method = req_split[0].lstrip("b'")
+
+        # get query from second element in request split (all after "?")
         query_split = req_split[1].split("?")
         if len(query_split) > 1:
             query = query_split[1].split("&")
+
+        # get the server path to handle (first element in query split, before "?")
         pathname = query_split[0]
 
     if pathname[:13] == "/rgbw/set_pin" and method == "POST":
@@ -101,9 +109,20 @@ def parse_query(queries: list[str]):
 
 
 try:
-    info.IP = connect()
+    ip = connect()
 
-    c = open_socket(info.IP)
+    c = open_socket(ip)
+
+    # Register this device on the server
+    if config.SERVER_URL:
+        with contextlib.suppress(Exception):
+            urequests.post(
+                config.SERVER_URL + config.SERVER_UPDATE_PATH,
+                json={
+                    "addr": f"{ip}:{config.PORT}"
+                }
+            )
+
     try:
         serve(c)
     finally:

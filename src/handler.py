@@ -1,13 +1,13 @@
 from picozero import pico_temp_sensor
 
-import info
+import config 
 import rgbw
 
 
 def device():
     """Method used for a device scan"""
     header = "HTTP/1.0 200 OK\r\nContent-Type: text/text\r\n\r\n"
-    body = f"{info.APPLICATION}_v{info.VERSION}\n"
+    body = f"{config.APPLICATION}_v{config.VERSION}\n"
     return header, body
 
 
@@ -15,7 +15,7 @@ def info_page():
     header = "HTTP/1.0 200 OK\r\nContent-Type: text/text\r\n\r\n"
 
     body = f"""\
-Device: {info.APPLICATION}_v{info.VERSION}
+Device: {config.APPLICATION}_v{config.VERSION}
 
 Temp: {pico_temp_sensor.temp}
 
