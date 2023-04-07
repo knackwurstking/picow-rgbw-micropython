@@ -64,9 +64,6 @@ def handle_request(req: str):
     with contextlib.suppress(IndexError):
         method, pathname, query = handler.utils.parse_request(req)
 
-    # TODO: Adding route: GET "/config/server" => "application/json", { "protocol", "host", "port" }
-    # TODO: Adding route: POST "/config/server", "application/json", { "protocol", "host", "port" }
-
     if pathname[:13] == "/rgbw/set_pin" and method == "POST":
         return handler.rgbw.post_pin(handler.utils.parse_query(query))
 
@@ -80,10 +77,10 @@ def handle_request(req: str):
         return handler.rgbw.get_duty()
 
     if pathname[:14] == "/server" and method == "GET":
-        return handler.server.get_server()
+        return handler.server.get()
 
     if pathname[:14] == "/server" and method == "POST":
-        return handler.server.post_server(handler.utils.parse_query(query))
+        return handler.server.post(handler.utils.parse_query(query))
 
     if pathname[:7] == "/device" and method == "GET":
         return handler.root.get_device()

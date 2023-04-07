@@ -3,14 +3,15 @@ import config
 from handler import utils
 
 
-def get_server():
+def get():
     return utils.response(
         "200 OK",
         f'{config.SERVER["protocol"]}//{config.SERVER["host"]}:{config.SERVER["port"]}\n'
     )
 
 
-def post_server(query: dict[str, str]):
+def post(query: dict[str, str]):
+    print(query, config.SERVER)
     status = "200 OK"
 
     if query["protocol"] not in ["http:", "https:"]:
@@ -27,7 +28,7 @@ def post_server(query: dict[str, str]):
         except Exception:
             status = "400 BAD REQUEST"
 
-    if status != "200 OK":
+    if status == "200 OK":
         if query["protocol"]:
             config.SERVER["protocol"] = query["protocol"]
 
