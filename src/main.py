@@ -11,7 +11,7 @@ from picozero import pico_led
 
 import handler
 import config
-import rgbwhandler
+import handler_rgbw
 
 
 def connect():
@@ -81,16 +81,16 @@ def handle_request(req: str):
     # TODO: Adding route: POST "/config/server", "application/json", { "protocol", "host", "port" }
 
     if pathname[:13] == "/rgbw/set_pin" and method == "POST":
-        return rgbwhandler.set_pin(parse_query(query))
+        return handler_rgbw.set_pin(parse_query(query))
 
     if pathname[:13] == "/rgbw/set_pwm" and method == "POST":
-        return rgbwhandler.set_pwm(parse_query(query))
+        return handler_rgbw.set_pwm(parse_query(query))
 
     if pathname[:14] == "/rgbw/get_pins" and method == "GET":
-        return rgbwhandler.get_pins()
+        return handler_rgbw.get_pins()
 
     if pathname[:14] == "/rgbw/get_duty" and method == "GET":
-        return rgbwhandler.get_duty()
+        return handler_rgbw.get_duty()
 
     if pathname[:7] == "/device" and method == "GET":
         return handler.device()
