@@ -1,19 +1,17 @@
 from picozero import pico_temp_sensor
 
-import config
-import rgbw
+from .. import config, rgbw
+from . import utils
 
 
-def device():
+def get_device():
     """Method used for a device scan"""
-    header = "HTTP/1.0 200 OK\r\nContent-Type: text/text\r\n\r\n"
-    body = f"{config.APPLICATION}_v{config.VERSION}\n"
-    return header, body
+    return utils.response(
+        "200 OK", f"{config.APPLICATION}_v{config.VERSION}\n"
+    )
 
 
-def info_page():
-    header = "HTTP/1.0 200 OK\r\nContent-Type: text/text\r\n\r\n"
-
+def get_info_page():
     body = f"""\
 Device: {config.APPLICATION}_v{config.VERSION}
 
@@ -50,4 +48,4 @@ Duty Range: 0-100 (%)
     else:
         body += "| [w]hite | --- | ---- |\n"
 
-    return header, body
+    return utils.response("200 OK", body)

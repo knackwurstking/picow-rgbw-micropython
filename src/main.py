@@ -1,7 +1,7 @@
 import contextlib
+import gc
 import socket
 from time import sleep
-import gc
 
 #import micropython
 import machine
@@ -9,9 +9,7 @@ import network
 from picozero import pico_led
 
 import config
-import handler_config
-import handler_main
-import handler_rgbw
+import handler
 
 
 def connect():
@@ -64,57 +62,36 @@ def handle_request(req: str):
     query: list[str] = []
 
     with contextlib.suppress(IndexError):
-        # split http request (string)
-        req_split = req.split()
-        # get the method (fist element in request split)
-        method = req_split[0].lstrip("b'")
-
-        # get query from second element in request split (all after "?")
-        query_split = req_split[1].split("?")
-        if len(query_split) > 1:
-            query = query_split[1].split("&")
-
-        # get the server path to handle (first element in query split, before "?")
-        pathname = query_split[0]
+        method, pathname, query = handler.utils.parse_request(req)
 
     # TODO: Adding route: GET "/config/server" => "application/json", { "protocol", "host", "port" }
     # TODO: Adding route: POST "/config/server", "application/json", { "protocol", "host", "port" }
 
     if pathname[:13] == "/rgbw/set_pin" and method == "POST":
-        return handler_rgbw.post_pin(parse_query(query))
+        return handler.rgbw.post_pin(handler.utils.parse_query(query))
 
     if pathname[:13] == "/rgbw/set_pwm" and method == "POST":
-        return handler_rgbw.post_pwm(parse_query(query))
+        return handler.rgbw.post_pwm(handler.utils.parse_query(query))
 
     if pathname[:14] == "/rgbw/get_pins" and method == "GET":
-        return handler_rgbw.get_pins()
+        return handler.rgbw.get_pins()
 
     if pathname[:14] == "/rgbw/get_duty" and method == "GET":
-        return handler_rgbw.get_duty()
+        return handler.rgbw.get_duty()
 
     if pathname == "/config/server" and method == "GET":
-        return handler_config.get_server()
+        return handler.config.get_server()
 
     if pathname == "/config/server" and method == "POST":
-        return handler_config.post_server()
+        return handler.config.post_server()
 
     if pathname[:7] == "/device" and method == "GET":
-        return handler_main.device()
+        return handler.root.get_device()
 
     if pathname[:1] == "/" and method == "GET":
-        return handler_main.info_page()
+        return handler.root.get_info_page()
 
     return "HTTP/1.0 404 NOT FOUND\r\nContent-Type: text/text\r\n\r\n", ""
-
-
-def parse_query(queries: list[str]):
-    ql: dict[str, str] = {}
-
-    for q in queries:
-        name, value = q.split("=", 1)
-        ql[name] = value
-
-    return ql
 
 
 try:
@@ -128,6 +105,7 @@ try:
     try:
         serve(c)
     finally:
+        pico_led.off()
         c.close()
 finally:
     machine.reset()

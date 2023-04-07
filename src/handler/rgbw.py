@@ -1,8 +1,9 @@
-import rgbw
+from .. import rgbw
+from . import utils
 
 
 def post_pin(query: dict[str, str]):
-    http_status = "200 OK"
+    status = "200 OK"
 
     for color, value in query.items():
         if color in ["r", "g", "b", "w"]:
@@ -19,20 +20,19 @@ def post_pin(query: dict[str, str]):
 
                 rgbw.add(color, value)
             except Exception:
-                http_status = "500 INTERNAL SERVER ERROR"
+                status = "500 INTERNAL SERVER ERROR"
 
-    if http_status == "200 OK":
+    if status == "200 OK":
         try:
             rgbw.save()
         finally:
             pass
 
-    header = f"HTTP/1.0 {http_status}\r\nContent-Type: text/text\r\n\r\n"
-    return header, ""
+    return utils.response(status)
 
 
 def post_pwm(query: dict[str, str]):
-    http_status = "200 OK"
+    status = "200 OK"
 
     for color, value in query.items():
         if color in ["r", "g", "b", "w"]:
@@ -40,14 +40,12 @@ def post_pwm(query: dict[str, str]):
                 if pin := rgbw.get(color):
                     pin.set_duty_cycle(int(value))
             except Exception:
-                http_status = "500 INTERNAL SERVER ERROR"
+                status = "500 INTERNAL SERVER ERROR"
 
-    header = f"HTTP/1.0 {http_status}\r\nContent-Type: text/text\r\n\r\n"
-    return header, ""
+    return utils.response(status)
 
 
 def get_pins():
-    header = "HTTP/1.0 200 OK\r\nContent-Type: text/text\r\n\r\n"
     body = ""
 
     for color in ["r", "g", "b", "w"]:
@@ -59,11 +57,10 @@ def get_pins():
 
     body = body.rstrip(" ") + "\n"
 
-    return header, body
+    return utils.response("200 OK", body)
 
 
 def get_duty():
-    header = "HTTP/1.0 200 OK\r\nContent-Type: text/text\r\n\r\n"
     body = ""
 
     for color in ["r", "g", "b", "w"]:
@@ -75,4 +72,4 @@ def get_duty():
 
     body = body.rstrip(" ") + "\n"
 
-    return header, body
+    return utils.response("200 OK", body)
