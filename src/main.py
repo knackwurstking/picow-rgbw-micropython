@@ -97,6 +97,7 @@ try:
     c = open_socket(ip)
 
     # Register this device on the server
+    config.load()
     config.register_to_server(ip)
 
     try:

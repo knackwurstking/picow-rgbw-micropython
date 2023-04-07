@@ -43,6 +43,3 @@ def load():
     with contextlib.suppress(Exception):
         with open("server.json", "r") as c:
             SERVER = json.load(c)
-
-
-load()
