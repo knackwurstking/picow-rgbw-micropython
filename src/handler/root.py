@@ -1,7 +1,7 @@
 from picozero import pico_temp_sensor
 
-from .. import config, rgbw
-from . import utils
+import config, rgbw
+from handler import utils
 
 
 def get_device():

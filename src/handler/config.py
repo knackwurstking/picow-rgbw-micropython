@@ -1,5 +1,5 @@
 import config
-from . import utils
+from handler import utils
 
 
 def get_server():
