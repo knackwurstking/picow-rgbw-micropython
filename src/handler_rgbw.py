@@ -1,7 +1,7 @@
 import rgbw
 
 
-def set_pin(query: dict[str, str]):
+def post_pin(query: dict[str, str]):
     http_status = "200 OK"
 
     for color, value in query.items():
@@ -31,7 +31,7 @@ def set_pin(query: dict[str, str]):
     return header, ""
 
 
-def set_pwm(query: dict[str, str]):
+def post_pwm(query: dict[str, str]):
     http_status = "200 OK"
 
     for color, value in query.items():

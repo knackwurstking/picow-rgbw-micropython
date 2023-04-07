@@ -1,16 +1,16 @@
 import contextlib
 import socket
 from time import sleep
-
 import gc
+
 #import micropython
 import machine
 import network
-import urequests
 from picozero import pico_led
 
-import handler
 import config
+import handler_config
+import handler_main
 import handler_rgbw
 
 
@@ -81,10 +81,10 @@ def handle_request(req: str):
     # TODO: Adding route: POST "/config/server", "application/json", { "protocol", "host", "port" }
 
     if pathname[:13] == "/rgbw/set_pin" and method == "POST":
-        return handler_rgbw.set_pin(parse_query(query))
+        return handler_rgbw.post_pin(parse_query(query))
 
     if pathname[:13] == "/rgbw/set_pwm" and method == "POST":
-        return handler_rgbw.set_pwm(parse_query(query))
+        return handler_rgbw.post_pwm(parse_query(query))
 
     if pathname[:14] == "/rgbw/get_pins" and method == "GET":
         return handler_rgbw.get_pins()
@@ -92,11 +92,17 @@ def handle_request(req: str):
     if pathname[:14] == "/rgbw/get_duty" and method == "GET":
         return handler_rgbw.get_duty()
 
+    if pathname == "/config/server" and method == "GET":
+        return handler_config.get_server()
+
+    if pathname == "/config/server" and method == "POST":
+        return handler_config.post_server()
+
     if pathname[:7] == "/device" and method == "GET":
-        return handler.device()
+        return handler_main.device()
 
     if pathname[:1] == "/" and method == "GET":
-        return handler.info_page()
+        return handler_main.info_page()
 
     return "HTTP/1.0 404 NOT FOUND\r\nContent-Type: text/text\r\n\r\n", ""
 
@@ -117,14 +123,7 @@ try:
     c = open_socket(ip)
 
     # Register this device on the server
-    if config.SERVER_URL:
-        with contextlib.suppress(Exception):
-            urequests.post(
-                config.SERVER_URL + config.UPDATE_PATH,
-                json={
-                    "addr": f"{ip}:{config.PORT}"
-                }
-            )
+    config.register_to_server(ip)
 
     try:
         serve(c)
