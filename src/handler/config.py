@@ -5,7 +5,7 @@ from handler import utils
 def get_server():
     return utils.response(
         "200 OK",
-        f'{config.SERVER["protocol"]}//{config.SERVER["host"]}:{config.SERVER["port"]}'
+        f'{config.SERVER["protocol"]}//{config.SERVER["host"]}:{config.SERVER["port"]}\n'
     )
 
 
