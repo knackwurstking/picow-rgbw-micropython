@@ -79,11 +79,11 @@ def handle_request(req: str):
     if pathname[:14] == "/rgbw/get_duty" and method == "GET":
         return handler.rgbw.get_duty()
 
-    if pathname[:14] == "/config/server" and method == "GET":
-        return handler.config.get_server()
+    if pathname[:14] == "/server" and method == "GET":
+        return handler.server.get_server()
 
-    if pathname[:14] == "/config/server" and method == "POST":
-        return handler.config.post_server(handler.utils.parse_query(query))
+    if pathname[:14] == "/server" and method == "POST":
+        return handler.server.post_server(handler.utils.parse_query(query))
 
     if pathname[:7] == "/device" and method == "GET":
         return handler.root.get_device()
