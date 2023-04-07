@@ -10,7 +10,7 @@ import urequests
 from picozero import pico_led
 
 import handler
-import config 
+import config
 import rgbwhandler
 
 
@@ -76,6 +76,9 @@ def handle_request(req: str):
 
         # get the server path to handle (first element in query split, before "?")
         pathname = query_split[0]
+
+    # TODO: Adding route: GET "/config/server" => "application/json", { "protocol", "host", "port" }
+    # TODO: Adding route: POST "/config/server", "application/json", { "protocol", "host", "port" }
 
     if pathname[:13] == "/rgbw/set_pin" and method == "POST":
         return rgbwhandler.set_pin(parse_query(query))
