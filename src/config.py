@@ -1,4 +1,5 @@
 import contextlib
+import json
 
 import urequests
 
@@ -10,24 +11,37 @@ VERSION = "0.0.1"
 
 PORT = 80
 
-SERVER_URL = "http://192.168.178.20:50833"
-
 UPDATE_PATH = "/api/v1/picow"
 
-# TODO: SERVER will replace the SERVER_URL
 SERVER = {
     "protocol": "http:",
-    "host": "192.168.178.20",
+    "host": "",
     "port": 50833,
 }
 
 
 def register_to_server(ip: str):
-    if SERVER_URL:
+    if SERVER["protocol"] and SERVER["host"] and SERVER["PORT"]:
         with contextlib.suppress(Exception):
             urequests.post(
-                SERVER_URL + UPDATE_PATH,
+                f'{SERVER["protocol"]}//{SERVER["host"]}:{SERVER["port"]}/{UPDATE_PATH}',
                 json={
                     "addr": f"{ip}:{PORT}"
                 }
             )
+
+
+def save():
+    with open("server.json", "w") as c:
+        c.write(json.dumps(SERVER))
+
+
+def load():
+    global SERVER
+
+    with contextlib.suppress(Exception):
+        with open("server.json", "r") as c:
+            SERVER = json.load(c)
+
+
+load()

@@ -1,4 +1,5 @@
 import config
+
 from handler import utils
 
 
@@ -31,5 +32,6 @@ def post_server(query: dict[str, str]):
         config.SERVER["protocol"] = query["protocol"]
         config.SERVER["host"] = query["host"]
         config.SERVER["port"] = int(query["port"])
+        config.save()
 
     return utils.response(status, body)

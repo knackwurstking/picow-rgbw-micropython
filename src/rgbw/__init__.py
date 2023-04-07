@@ -48,7 +48,7 @@ def remove(color: str):
 
 
 def save():
-    with open("config.json", "w") as c:
+    with open("rgbw.json", "w") as c:
         # NOTE: tuple: color, pin, duty
         _pins: list[tuple[str, int, int]] = []
 
@@ -62,7 +62,7 @@ def save():
 
 def load():
     with contextlib.suppress(Exception):
-        with open("config.json", "r") as c:
+        with open("rgbw.json", "r") as c:
             # NOTE: tuple: color, pin, duty
             _pins: list[tuple[str, int, int]] = json.load(c)
 
