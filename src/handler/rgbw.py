@@ -38,6 +38,8 @@ def post_pwm(query: dict[str, str]):
         if color in ["r", "g", "b", "w"]:
             try:
                 if pin := rgbw.get(color):
+                    if pin is None:
+                        continue
                     pin.set_duty_cycle(int(value))
             except Exception:
                 status = "500 INTERNAL SERVER ERROR"
