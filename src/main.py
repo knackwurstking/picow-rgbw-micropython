@@ -3,7 +3,7 @@ import socket
 from time import sleep
 
 import gc
-import micropython
+#import micropython
 import machine
 import network
 import urequests
@@ -120,7 +120,7 @@ try:
     if config.SERVER_URL:
         with contextlib.suppress(Exception):
             urequests.post(
-                config.SERVER_URL + config.SERVER_UPDATE_PATH,
+                config.SERVER_URL + config.UPDATE_PATH,
                 json={
                     "addr": f"{ip}:{config.PORT}"
                 }

@@ -1,6 +1,6 @@
 from picozero import pico_temp_sensor
 
-import config 
+import config
 import rgbw
 
 
