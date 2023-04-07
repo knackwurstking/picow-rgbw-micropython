@@ -31,7 +31,10 @@ def post_server(query: dict[str, str]):
     if status != "200 OK":
         config.SERVER["protocol"] = query["protocol"]
         config.SERVER["host"] = query["host"]
-        config.SERVER["port"] = int(query["port"])
+
+        if query["port"]:
+            config.SERVER["port"] = int(query["port"])
+
         config.save()
 
     return utils.response(status, body)
