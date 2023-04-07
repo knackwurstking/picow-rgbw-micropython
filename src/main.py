@@ -16,7 +16,7 @@ def connect():
     """Connect to WLAN (ssid, password)"""
     wlan = network.WLAN(network.STA_IF)
     wlan.active(True)
-    wlan.config(pm = 0xa11140)  # disable power-save mode
+    wlan.config(pm=0xa11140)  # disable power-save mode
     wlan.connect(config.SSID, config.PASSWORD)
 
     # Wait for connection
