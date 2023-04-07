@@ -29,10 +29,10 @@ def post_server(query: dict[str, str]):
             status = "400 BAD REQUEST"
 
     if status != "200 OK":
-        if config.SERVER["protocol"]:
+        if query["protocol"]:
             config.SERVER["protocol"] = query["protocol"]
 
-        if config.SERVER["host"]:
+        if query["host"]:
             config.SERVER["host"] = query["host"]
 
         if query["port"]:
