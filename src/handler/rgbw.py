@@ -1,4 +1,4 @@
-from .. import rgbw
+import rgbw
 from . import utils
 
 
