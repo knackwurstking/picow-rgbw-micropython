@@ -102,7 +102,7 @@ try:
     try:
         serve(c)
     finally:
-        pico_led.off
+        pico_led.off()
         c.close()
 finally:
     machine.reset()
