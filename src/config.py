@@ -1,4 +1,5 @@
 import contextlib
+
 import urequests
 
 SSID = ""

@@ -1,4 +1,1 @@
-from . import rgbw
-from . import root
-from . import config
-from . import utils
+from . import config, rgbw, root, utils
