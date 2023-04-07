@@ -83,7 +83,7 @@ def handle_request(req: str):
         return handler.config.get_server()
 
     if pathname == "/config/server" and method == "POST":
-        return handler.config.post_server()
+        return handler.config.post_server(handler.utils.parse_query(query))
 
     if pathname[:7] == "/device" and method == "GET":
         return handler.root.get_device()
