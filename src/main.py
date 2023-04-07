@@ -91,7 +91,7 @@ def handle_request(req: str):
     if pathname[:1] == "/" and method == "GET":
         return handler.root.get_info_page()
 
-    return "HTTP/1.0 404 NOT FOUND\r\nContent-Type: text/text\r\n\r\n", ""
+    return handler.utils.response("404 NOT FOUND")
 
 
 try:
@@ -105,7 +105,7 @@ try:
     try:
         serve(c)
     finally:
-        pico_led.off()
+        pico_led.off
         c.close()
 finally:
     machine.reset()
