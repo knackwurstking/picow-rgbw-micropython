@@ -12,7 +12,6 @@ def get_server():
 
 def post_server(query: dict[str, str]):
     status = "200 OK"
-    body = ""
 
     if query["protocol"] not in ["http:", "https:"]:
         status = "400 BAD REQUEST"
@@ -40,4 +39,4 @@ def post_server(query: dict[str, str]):
 
         config.save()
 
-    return utils.response(status, body)
+    return utils.response(status)
