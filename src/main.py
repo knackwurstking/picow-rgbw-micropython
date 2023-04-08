@@ -39,7 +39,7 @@ def serve(c):
     """Start the web server"""
     pico_led.on()
     gc.collect()
-    gc.disable()
+    #gc.disable()
 
     while True:
         #micropython.mem_info()
