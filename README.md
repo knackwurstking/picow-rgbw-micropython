@@ -31,8 +31,16 @@ Control rgbw stripes (pwm mode)
 ## TODOs
 
 - [x] Add a temperature entry to info_page
-- [x] Add handler: get duty (will return the rgbw duty cycle like this `100 100 100 -1` for max white) (-1 === not set)
-- [x] Add handler: get pins (will return the rgbw pins like this `0 1 2 -1`) (-1 === not set)
+- [x] Add handler: get duty (will return the rgbw duty cycle like this
+      `100 100 100 -1` for max white) (-1 === not set)
+- [x] Add handler: get pins (will return the rgbw pins like this `0 1 2 -1`)
+      (-1 === not set)
 - [x] Save/Load pins configuration
 - [x] README: Add a routing table
 - [ ] README: Add a getting started section
+- [ ] Adding timout (4 seconds) to waiting for connection, else reconnect and
+      wait again
+- [ ] Add wifi keep online thread (check every 5 seconds?)
+  - using `import _thread`
+  - sleep `import utime` + `utime.sleep(5)`
+  - start with `_thread.start_new_thread(func, ())`
