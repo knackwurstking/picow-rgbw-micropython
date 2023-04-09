@@ -15,9 +15,9 @@ import handler
 
 def connect(conn: network.WLAN = None):
     """Connect to WLAN (ssid, password)"""
-    wlan = network.WLAN(network.STA_IF) if conn is not None else conn
+    wlan = network.WLAN(network.STA_IF) if conn is None else conn
 
-    if conn is not None:
+    if conn is None:
         wlan.active(True)
         wlan.config(pm=0xa11140)  # disable power-save mode
 
@@ -113,9 +113,10 @@ def handle_request(req: str):
 
 try:
     wlan = connect()
+    pico_led.on()
     ip = wlan.ifconfig()[0]
     c = open_socket(ip)
-    _thread.start_new_thread(t_connect, (wlan))
+    _thread.start_new_thread(t_connect, (wlan,))
 
     # Register this device on the server
     config.load()
@@ -126,5 +127,8 @@ try:
     finally:
         pico_led.off()
         c.close()
+except Exception as e:
+    print(e)
+    utime.sleep(1)
 finally:
     machine.reset()
