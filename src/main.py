@@ -1,29 +1,52 @@
+import _thread
 import contextlib
 import gc
 import socket
-from time import sleep
 
 #import micropython
 import machine
 import network
+import utime
 from picozero import pico_led
 
 import config
 import handler
 
 
-def connect():
+def connect(conn: network.WLAN = None):
     """Connect to WLAN (ssid, password)"""
-    wlan = network.WLAN(network.STA_IF)
-    wlan.active(True)
-    wlan.config(pm=0xa11140)  # disable power-save mode
+    wlan = network.WLAN(network.STA_IF) if conn is not None else conn
+
+    if conn is not None:
+        wlan.active(True)
+        wlan.config(pm=0xa11140)  # disable power-save mode
+
     wlan.connect(config.SSID, config.PASSWORD)
 
-    # Wait for connection
-    while wlan.isconnected() is False:
-        sleep(1)
+    if conn is not None:
+        return wlan
 
-    return wlan.ifconfig()[0]
+    # Wait for connection
+    c = 0
+    while wlan.isconnected() is False:
+        utime.sleep(1)
+
+        c += 1
+        if c > 4 and conn is None:
+            wlan = connect(wlan)
+            c = 0
+
+    return wlan
+
+
+def t_connect(wlan: network.WLAN):
+    while True:
+        utime.sleep(5)
+
+        if wlan.isconnected() is False:
+            pico_led.off()
+            if connect().isconnected() is True:
+                pico_led.on()
 
 
 def open_socket(ip):
@@ -37,10 +60,7 @@ def open_socket(ip):
 
 def serve(c):
     """Start the web server"""
-    pico_led.on()
     gc.collect()
-    #gc.disable()
-
     while True:
         #micropython.mem_info()
         client = c.accept()[0]
@@ -92,9 +112,10 @@ def handle_request(req: str):
 
 
 try:
-    ip = connect()
-
+    wlan = connect()
+    ip = wlan.ifconfig()[0]
     c = open_socket(ip)
+    _thread.start_new_thread(t_connect, (wlan))
 
     # Register this device on the server
     config.load()
