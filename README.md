@@ -44,3 +44,10 @@ Control rgbw stripes (pwm mode)
   - using `import _thread`
   - sleep `import utime` + `utime.sleep(5)`
   - start with `_thread.start_new_thread(func, ())`
+
+- copy pico firmware do pico 
+- start thonny ide
+- copy file over to the pico device
+- edit config.py, add ssid and password for wifi router
+- install package `micropython-contextlib`
+- install package `picozero`
