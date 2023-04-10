@@ -83,18 +83,12 @@ picow_micropython_v0.0.1
 
 ### **POST** _"/rgbw/set_pwm"_
 
-@TODO: ...
+Set the (rgbw) pwm pin duty cycle, range between 0 - 100.
 
 Example Request
 
 ```bash
-curl http://192.168.178.50:80/rgbw/set_pwm
-```
-
-Example Response
-
-```text
-
+curl 'http://192.168.178.50:80/rgbw/set_pwm?r=100&g=100&b=100&w=100'
 ```
 
 ## TODOs
