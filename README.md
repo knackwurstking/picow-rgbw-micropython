@@ -27,6 +27,7 @@ Control rgbw stripes (pwm mode)
 | POST   | `/rgbw/set_pin?r=<-1/1-28>&g=<-1/1-28>&b=<-1/1-28>&w=<-1/1-28>` | Set rgbw pins (-1 to remove)                               |
 | GET    | `/rgbw/get_pins`                                                | get rgbw pins (-1 if pin not set)                          |
 | GET    | `/rgbw/get_duty`                                                | get the current duty (-1 if pin not set) for rgbw (0-100%) |
+| POST   | `/server?host=<ip>`                                             | configure the (web) server for registration                |
 
 ## TODOs
 
@@ -38,14 +39,15 @@ Control rgbw stripes (pwm mode)
 - [x] Save/Load pins configuration
 - [x] README: Add a routing table
 - [ ] README: Add a getting started section
-- [ ] Adding timout (4 seconds) to waiting for connection, else reconnect and
+- [ ] Adding timeout (4 seconds) to waiting for connection, else reconnect and
       wait again
 - [ ] Add wifi keep online thread (check every 5 seconds?)
+
   - using `import _thread`
   - sleep `import utime` + `utime.sleep(5)`
   - start with `_thread.start_new_thread(func, ())`
 
-- copy pico firmware do pico 
+- copy pico firmware do pico
 - start thonny ide
 - copy file over to the pico device
 - edit config.py, add ssid and password for wifi router
