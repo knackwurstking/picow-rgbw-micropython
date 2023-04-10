@@ -1,12 +1,14 @@
 # picow-rgbw
 
 <!--toc:start-->
-
 - [picow-rgbw](#picow-rgbw)
   - [Getting Started](#getting-started)
-  - [Routing](#routing)
+  - [Server Info](#server-info)
+    - [**GET** _"/"_](#get)
+    - [**GET** _"/device"_](#get-device)
+    - [**POST** _"/rgbw/set_pwm"_](#post-rgbwsetpwm)
   - [TODOs](#todos)
-  <!--toc:end-->
+<!--toc:end-->
 
 Control rgbw stripes (pwm mode)
 
@@ -17,17 +19,83 @@ Control rgbw stripes (pwm mode)
 
 @TODO: ...
 
-## Routing
+## Server Info
 
-| Method | Pathname                                                        | Description                                                |
-| ------ | --------------------------------------------------------------- | ---------------------------------------------------------- |
-| GET    | `/`                                                             | Get info_page (text/text)                                  |
-| GET    | `/device`                                                       | Get application info and version                           |
-| POST   | `/rgbw/set_pwm?r=<0-100>&g=<0-100>&b=<0-100>&w=<0-100>`         | Set duty cycle for pins (rgbw)                             |
-| POST   | `/rgbw/set_pin?r=<-1/1-28>&g=<-1/1-28>&b=<-1/1-28>&w=<-1/1-28>` | Set rgbw pins (-1 to remove)                               |
-| GET    | `/rgbw/get_pins`                                                | get rgbw pins (-1 if pin not set)                          |
-| GET    | `/rgbw/get_duty`                                                | get the current duty (-1 if pin not set) for rgbw (0-100%) |
-| POST   | `/server?host=<ip>`                                             | configure the (web) server for registration                |
+| Method | Pathname                                                        |
+| ------ | --------------------------------------------------------------- |
+| GET    | [/](#info_page)                                                 |
+| GET    | [/device](#device)                                              |
+| POST   | [/rgbw/set_pwm](#rgbwsetpwm)                                    |
+| POST   | `/rgbw/set_pin?r=<-1/1-28>&g=<-1/1-28>&b=<-1/1-28>&w=<-1/1-28>` |
+| GET    | `/rgbw/get_pins`                                                |
+| GET    | `/rgbw/get_duty`                                                |
+| POST   | `/server?host=<ip>`                                             |
+
+<a id="info_page"></a>
+
+### **GET** _"/"_
+
+Device info page.
+
+Example Request
+
+```bash
+curl http://192.168.178.50:80/
+```
+
+Example Response
+
+```text
+Device: picow_micropython_v0.0.1
+
+Temp: 19.55409
+
+Freq: 1000
+Duty Range: 0-100 (%)
+
+| Color   | Pin | Duty |
+|---------|-----|------|
+| [r]ed   |   0 |    0 |
+| [g]reen |   1 |    0 |
+| [b]lue  |   2 |    0 |
+| [w]hite |   3 |    0 |
+```
+
+<a id="device"></a>
+
+### **GET** _"/device"_
+
+Get version information. (returns `<device>_<language>_<version>`)
+
+Example Request
+
+```bash
+curl http://192.168.178.50:80/version
+```
+
+Example Response
+
+```text
+picow_micropython_v0.0.1
+```
+
+<a id="rgbwsetpwm"></a>
+
+### **POST** _"/rgbw/set_pwm"_
+
+@TODO: ...
+
+Example Request
+
+```bash
+curl http://192.168.178.50:80/rgbw/set_pwm
+```
+
+Example Response
+
+```text
+
+```
 
 ## TODOs
 
@@ -39,9 +107,10 @@ Control rgbw stripes (pwm mode)
 - [x] Save/Load pins configuration
 - [x] README: Add a routing table
 - [ ] README: Add a getting started section
-- [ ] Adding timeout (4 seconds) to waiting for connection, else reconnect and
+- [x] Adding timeout (4 seconds) to waiting for connection, else reconnect and
       wait again
-- [ ] Add wifi keep online thread (check every 5 seconds?)
+- [x] Add wifi keep online thread (check every 5 seconds?)
+- [ ] rename "/device" to "/version"
 
   - using `import _thread`
   - sleep `import utime` + `utime.sleep(5)`
@@ -53,3 +122,4 @@ Control rgbw stripes (pwm mode)
 - edit config.py, add ssid and password for wifi router
 - install package `micropython-contextlib`
 - install package `picozero`
+- run...
