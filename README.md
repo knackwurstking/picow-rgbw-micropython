@@ -1,6 +1,7 @@
 # picow-rgbw
 
 <!--toc:start-->
+
 - [picow-rgbw](#picow-rgbw)
   - [Getting Started](#getting-started)
   - [Server Info](#server-info)
@@ -8,7 +9,7 @@
     - [**GET** _"/device"_](#get-device)
     - [**POST** _"/rgbw/set_pwm"_](#post-rgbwsetpwm)
   - [TODOs](#todos)
-<!--toc:end-->
+  <!--toc:end-->
 
 Control rgbw stripes (pwm mode)
 
@@ -21,15 +22,15 @@ Control rgbw stripes (pwm mode)
 
 ## Server Info
 
-| Method | Pathname                                                        |
-| ------ | --------------------------------------------------------------- |
-| GET    | [/](#info_page)                                                 |
-| GET    | [/device](#device)                                              |
-| POST   | [/rgbw/set_pwm](#rgbwsetpwm)                                    |
-| POST   | `/rgbw/set_pin?r=<-1/1-28>&g=<-1/1-28>&b=<-1/1-28>&w=<-1/1-28>` |
-| GET    | `/rgbw/get_pins`                                                |
-| GET    | `/rgbw/get_duty`                                                |
-| POST   | `/server?host=<ip>`                                             |
+| Method | Pathname                       |
+| ------ | ------------------------------ |
+| GET    | [/](#info_page)                |
+| GET    | [/device](#device)             |
+| POST   | [/server](#server)             |
+| POST   | [/rgbw/set_pin](#rgbwsetpin)   |
+| POST   | [/rgbw/set_pwm](#rgbwsetpwm)   |
+| GET    | [/rgbw/get_pins](#rgbwgetpins) |
+| GET    | [/rgbw/get_duty](#rgbwgetduty) |
 
 <a id="info_page"></a>
 
@@ -79,16 +80,77 @@ Example Response
 picow_micropython_v0.0.1
 ```
 
+<a id="rgbwsetpin"></a>
+
+### **POST** _"/rgbw/set_pin"_
+
+Set gpio pin to use as rgbw, range between 0-28.
+
+Example Request
+
+```bash
+curl 'http://192.168.178.50:80/rgbw/set_pwm?r=0&g=1&b=2&w=3'
+```
+
 <a id="rgbwsetpwm"></a>
 
 ### **POST** _"/rgbw/set_pwm"_
 
-Set the (rgbw) pwm pin duty cycle, range between 0 - 100.
+Set the (rgbw) pwm pin duty cycle, range between 0-100.
 
 Example Request
 
 ```bash
 curl 'http://192.168.178.50:80/rgbw/set_pwm?r=100&g=100&b=100&w=100'
+```
+
+<a id="server"></a>
+
+### **POST** _"/server"_
+
+Configure the ([picow-rgbw-web](https://github.com/knackwurstking/picow-rgbw-web.git)) server to use for registration.
+The pico device will register itself on the web server
+
+Example Request
+
+```bash
+curl 'http://192.168.178.50:80/server?host=192.168.178.50'
+```
+
+<a id="rgbwgetpins"></a>
+
+### **GET** _"/rgbwgetpins"_
+
+Get gpio pins in use for rgbw, Range between 0-28.
+
+Example Request
+
+```bash
+curl https://192.168.178.50:80/rgbw/get_pins
+```
+
+Example Response
+
+```text
+0 1 2 3
+```
+
+<a id="rgbwgetduty"></a>
+
+### **GET** _"/rgbwgetduty"_
+
+Get the current rgbw duty cycle, range between 0-100.
+
+Example Request
+
+```bash
+curl https://192.168.178.50:80/rgbw/get_pins
+```
+
+Example Response
+
+```text
+0 1 2 3
 ```
 
 ## TODOs
