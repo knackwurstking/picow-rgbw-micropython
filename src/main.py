@@ -41,12 +41,14 @@ def connect(conn: network.WLAN = None):
 
 def t_connect(wlan: network.WLAN):
     while True:
-        utime.sleep(5)
-
-        if wlan.isconnected() is False:
+        if not wlan.isconnected():
             pico_led.off()
-            if connect().isconnected() is True:
+            wlan = connect(wlan)
+            utime.sleep(4)
+            if wlan.isconnected():
                 pico_led.on()
+
+        utime.sleep(5)
 
 
 def open_socket(ip):
