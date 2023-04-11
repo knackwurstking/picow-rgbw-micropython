@@ -27,25 +27,32 @@ def connect(conn: network.WLAN = None):
         return wlan
 
     # Wait for connection
+    while not wlan.isconnected():
+        if not wait_for_wlan_connection(wlan):
+            connect(wlan)
+
+    return wlan
+
+
+def wait_for_wlan_connection(wlan: network.WLAN):
     c = 0
     while wlan.isconnected() is False:
         utime.sleep(1)
 
         c += 1
-        if c > 4 and conn is None:
-            wlan = connect(wlan)
-            c = 0
+        if c > 4:
+            return False
 
-    return wlan
+    return True
 
 
 def t_connect(wlan: network.WLAN):
     while True:
-        if not wlan.isconnected():
-            pico_led.off()
-            wlan = connect(wlan)
-            utime.sleep(4)
-            if wlan.isconnected():
+        while not wlan.isconnected():
+            if not wait_for_wlan_connection(wlan):
+                pico_led.off()
+                connect(wlan)
+            else:
                 pico_led.on()
 
         utime.sleep(5)
