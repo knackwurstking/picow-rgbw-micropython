@@ -2,7 +2,6 @@ import contextlib
 import gc
 import socket
 
-#import micropython
 import machine
 import network
 import utime
@@ -16,7 +15,7 @@ def connect():
     """Connect to WLAN (ssid, password)"""
     wlan = network.WLAN(network.STA_IF)
     wlan.active(True)
-    wlan.config(pm=0xa11140)  # disable power-save mode
+    #wlan.config(pm=0xa11140)  # disable power-save mode
 
     wlan.connect(config.SSID, config.PASSWORD)
 
@@ -60,6 +59,8 @@ def serve(c):
             client.send(header)
         if body:
             client.send(body)
+
+        client.close()
 
 
 def handle_request(req: str):
@@ -107,11 +108,7 @@ try:
     config.load()
     config.register_to_server(ip)
 
-    try:
-        serve(c)
-    finally:
-        pico_led.off()
-        c.close()
+    serve(c)
 except Exception as e:
     print(e)
     with open("error.log", "w") as f:
