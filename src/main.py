@@ -11,39 +11,38 @@ from picozero import pico_led
 import config
 import handler
 
-wlan = network.WLAN(network.STA_IF)
-
 
 def log(message: str):
     with open("pico.log", "a") as f:
         f.write(message)
 
 
-def connect(skip_waiting: bool = False):
+def connect(wlan: network.WLAN, skip: bool = False):
     """Connect to WLAN (ssid, password)"""
-    global wlan
     log("Connecting wlan...\n")
 
     wlan.active(True)
     #wlan.config(pm=0xa11140)  # disable power-save mode
-
     wlan.connect(config.SSID, config.PASSWORD)
 
-    if skip_waiting:
-        return
+    if skip:
+        return wlan
 
-    # Wait for connection
-    while True:
-        if wlan.isconnected():
-            utime.sleep(5)
-            continue
-
+    while not wlan.isconnected():
         if not wait_for_wlan_connection(wlan):
             log("...connection to wlan failed, try re-connecting...\n")
-            wlan = network.WLAN(network.STA_IF)
-            connect(True)
+            wlan = connect(network.WLAN(network.STA_IF))
+
+    log("...connection established.\n")
+    return wlan
+
+
+def t_wifi(wlan: network.WLAN):
+    while True:
+        if not wlan.isconnected():
+            wlan = connect(network.WLAN(network.STA_IF))
         else:
-            log("...connection established.\n")
+            utime.sleep(5)
 
 
 def wait_for_wlan_connection(wlan: network.WLAN):
@@ -58,9 +57,9 @@ def wait_for_wlan_connection(wlan: network.WLAN):
     return True
 
 
-def open_socket(ip):
+def open_socket():
     """Open a socket."""
-    a = (ip, config.PORT)
+    a = ("0.0.0.0", config.PORT)
     c = socket.socket()
     c.bind(a)
     c.listen(1)
@@ -121,18 +120,15 @@ def handle_request(req: str):
 
 
 try:
-    _thread.start_new_thread(connect, ())
-
-    while not wlan.isconnected():
-        utime.sleep(0.5)
+    wlan = connect(network.WLAN(network.STA_IF))
+    _thread.start_new_thread(t_wifi, (wlan,))
 
     pico_led.on()
-    ip = wlan.ifconfig()[0]
-    c = open_socket(ip)
+    c = open_socket()
 
     # Register this device on the server
     config.load()
-    config.register_to_server(ip)
+    config.register_to_server(wlan.ifconfig()[0])
 
     serve(c)
 except Exception as e:
