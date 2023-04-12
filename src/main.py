@@ -49,8 +49,11 @@ def wait_for_wlan_connection(wlan: network.WLAN):
 def t_connect(wlan: network.WLAN):
     while True:
         while not wlan.isconnected():
+            pico_led.off()
             if not wait_for_wlan_connection(wlan):
                 connect(wlan)
+            else:
+                pico_led.on()
 
         utime.sleep(5)
 
@@ -66,20 +69,15 @@ def open_socket(ip):
 
 def serve(c):
     """Start the web server"""
-    gc.collect()
     while True:
-        #micropython.mem_info()
+        gc.collect()
         client = c.accept()[0]
 
-        try:
-            header, body = handle_request(str(client.recv(1024)))
-            if header:
-                client.send(header)
-            if body:
-                client.send(body)
-        finally:
-            client.close()
-            gc.collect()
+        header, body = handle_request(str(client.recv(1024)))
+        if header:
+            client.send(header)
+        if body:
+            client.send(body)
 
 
 def handle_request(req: str):
@@ -134,7 +132,6 @@ try:
         pico_led.off()
         c.close()
 except Exception as e:
-    pico_led.off()
     with open("error.log", "w") as f:
         f.write(str(e))
 finally:
