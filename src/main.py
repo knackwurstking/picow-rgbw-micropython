@@ -34,6 +34,11 @@ def connect(wlan: network.WLAN, skip: bool = False):
             wlan = connect(network.WLAN(network.STA_IF))
 
     log("...connection established.\n")
+
+    # Register this device on the server
+    config.load()
+    config.register_to_server(wlan.ifconfig()[0])
+
     return wlan
 
 
@@ -125,10 +130,6 @@ try:
 
     pico_led.on()
     c = open_socket()
-
-    # Register this device on the server
-    config.load()
-    config.register_to_server(wlan.ifconfig()[0])
 
     serve(c)
 except Exception as e:
