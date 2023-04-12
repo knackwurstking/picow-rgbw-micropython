@@ -2,6 +2,7 @@ import contextlib
 import gc
 import socket
 
+import _thread
 import machine
 import network
 import utime
@@ -16,24 +17,29 @@ def log(message: str):
         f.write(message)
 
 
-def connect():
+def connect(wlan: network.WLAN, skip_waiting: bool = False):
     """Connect to WLAN (ssid, password)"""
     log("Connecting wlan...\n")
 
-    wlan = network.WLAN(network.STA_IF)
     wlan.active(True)
     #wlan.config(pm=0xa11140)  # disable power-save mode
 
     wlan.connect(config.SSID, config.PASSWORD)
 
+    if not skip_waiting:
+        return wlan
+
     # Wait for connection
-    while not wlan.isconnected():
+    while True:
+        if wlan.isconnected():
+            utime.sleep(5)
+            continue
+
         if not wait_for_wlan_connection(wlan):
             log("...connection to wlan failed, try re-connecting...\n")
-            wlan = connect()
-
-    log("...connection established.\n")
-    return wlan
+            wlan = connect(network.WLAN(network.STA_IF), True)
+        else:
+            log("...connection established.\n")
 
 
 def wait_for_wlan_connection(wlan: network.WLAN):
@@ -111,7 +117,8 @@ def handle_request(req: str):
 
 
 try:
-    wlan = connect()
+    wlan = network.WLAN(network.STA_IF)
+    _thread.start_new_thread(connect, (wlan,))
     pico_led.on()
     ip = wlan.ifconfig()[0]
     c = open_socket(ip)
