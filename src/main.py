@@ -12,7 +12,7 @@ import handler
 
 
 def log(message: str):
-    with open("pico.log", "wa") as f:
+    with open("pico.log", "a") as f:
         f.write(message)
 
 
