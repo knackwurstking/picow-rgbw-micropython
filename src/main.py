@@ -1,4 +1,3 @@
-import _thread
 import contextlib
 import gc
 import socket
@@ -13,23 +12,18 @@ import config
 import handler
 
 
-def connect(conn: network.WLAN = None):
+def connect():
     """Connect to WLAN (ssid, password)"""
-    wlan = network.WLAN(network.STA_IF) if conn is None else conn
-
-    if conn is None:
-        wlan.active(True)
-        wlan.config(pm=0xa11140)  # disable power-save mode
+    wlan = network.WLAN(network.STA_IF)
+    wlan.active(True)
+    wlan.config(pm=0xa11140)  # disable power-save mode
 
     wlan.connect(config.SSID, config.PASSWORD)
-
-    if conn is not None:
-        return wlan
 
     # Wait for connection
     while not wlan.isconnected():
         if not wait_for_wlan_connection(wlan):
-            connect(wlan)
+            wlan = connect()
 
     return wlan
 
@@ -44,18 +38,6 @@ def wait_for_wlan_connection(wlan: network.WLAN):
             return False
 
     return True
-
-
-def t_connect(wlan: network.WLAN):
-    while True:
-        while not wlan.isconnected():
-            pico_led.off()
-            if not wait_for_wlan_connection(wlan):
-                connect(wlan)
-            else:
-                pico_led.on()
-
-        utime.sleep(5)
 
 
 def open_socket(ip):
@@ -120,7 +102,6 @@ try:
     pico_led.on()
     ip = wlan.ifconfig()[0]
     c = open_socket(ip)
-    _thread.start_new_thread(t_connect, (wlan,))
 
     # Register this device on the server
     config.load()
@@ -132,6 +113,7 @@ try:
         pico_led.off()
         c.close()
 except Exception as e:
+    print(e)
     with open("error.log", "w") as f:
         f.write(str(e))
 finally:
