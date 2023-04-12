@@ -11,14 +11,17 @@ from picozero import pico_led
 import config
 import handler
 
+wlan = network.WLAN(network.STA_IF)
+
 
 def log(message: str):
     with open("pico.log", "a") as f:
         f.write(message)
 
 
-def connect(wlan: network.WLAN, skip_waiting: bool = False):
+def connect(skip_waiting: bool = False):
     """Connect to WLAN (ssid, password)"""
+    global wlan
     log("Connecting wlan...\n")
 
     wlan.active(True)
@@ -26,8 +29,8 @@ def connect(wlan: network.WLAN, skip_waiting: bool = False):
 
     wlan.connect(config.SSID, config.PASSWORD)
 
-    if not skip_waiting:
-        return wlan
+    if skip_waiting:
+        return
 
     # Wait for connection
     while True:
@@ -37,7 +40,8 @@ def connect(wlan: network.WLAN, skip_waiting: bool = False):
 
         if not wait_for_wlan_connection(wlan):
             log("...connection to wlan failed, try re-connecting...\n")
-            wlan = connect(network.WLAN(network.STA_IF), True)
+            wlan = network.WLAN(network.STA_IF)
+            connect(True)
         else:
             log("...connection established.\n")
 
@@ -117,8 +121,11 @@ def handle_request(req: str):
 
 
 try:
-    wlan = network.WLAN(network.STA_IF)
-    _thread.start_new_thread(connect, (wlan,))
+    _thread.start_new_thread(connect, ())
+
+    while not wlan.isconnected():
+        utime.sleep(0.5)
+
     pico_led.on()
     ip = wlan.ifconfig()[0]
     c = open_socket(ip)
