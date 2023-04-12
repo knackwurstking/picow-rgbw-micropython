@@ -10,12 +10,15 @@ from picozero import pico_led
 import config
 import handler
 
-pico_log = open("pico.log", "w")
+
+def log(message: str):
+    with open("pico.log", "wa") as f:
+        f.write(message)
 
 
 def connect():
     """Connect to WLAN (ssid, password)"""
-    pico_log.write("Connecting wlan...\n")
+    log("Connecting wlan...\n")
 
     wlan = network.WLAN(network.STA_IF)
     wlan.active(True)
@@ -26,10 +29,10 @@ def connect():
     # Wait for connection
     while not wlan.isconnected():
         if not wait_for_wlan_connection(wlan):
-            pico_log.write("...connection to wlan failed, try re-connecting...\n")
+            log("...connection to wlan failed, try re-connecting...\n")
             wlan = connect()
 
-    pico_log.write("...connection established.\n")
+    log("...connection established.\n")
     return wlan
 
 
@@ -57,7 +60,7 @@ def open_socket(ip):
 def serve(c):
     """Start the web server"""
     while True:
-        pico_log.write("Waiting for client!\n")
+        log("Waiting for client!\n")
         gc.collect()
         client = c.accept()[0]
 
@@ -78,7 +81,7 @@ def handle_request(req: str):
     with contextlib.suppress(IndexError):
         method, pathname, query = handler.utils.parse_request(req)
 
-    pico_log.write(f"method={method} | pathname={pathname} | query={query}\n")
+    log(f"method={method} | pathname={pathname} | query={query}\n")
 
     if pathname[:13] == "/rgbw/set_pin" and method == "POST":
         return handler.rgbw.post_pin(handler.utils.parse_query(query))
@@ -120,8 +123,7 @@ try:
     serve(c)
 except Exception as e:
     print(e)
-    pico_log.write(str(e) + "\n")
-    utime.sleep(1)
+    log(str(e) + "\n")
 finally:
     machine.reset()
-    pico_log.close()
+    utime.sleep(1)
