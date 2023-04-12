@@ -50,10 +50,7 @@ def t_connect(wlan: network.WLAN):
     while True:
         while not wlan.isconnected():
             if not wait_for_wlan_connection(wlan):
-                pico_led.off()
                 connect(wlan)
-            else:
-                pico_led.on()
 
         utime.sleep(5)
 
@@ -137,7 +134,8 @@ try:
         pico_led.off()
         c.close()
 except Exception as e:
-    print(e)
-    utime.sleep(1)
+    pico_led.off()
+    with open("error.log", "w") as f:
+        f.write(str(e))
 finally:
     machine.reset()
