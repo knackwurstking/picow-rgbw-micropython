@@ -37,6 +37,7 @@ Control rgbw stripes (pwm mode)
 | ------ | ---------------------------------- |
 | GET    | [/](#info_page)                    |
 | GET    | [/device](#get-device)             |
+| GET    | [/server](#get-server)            |
 | POST   | [/server](#post-server)            |
 | POST   | [/rgbw/set_pin](#post-rgbwsetpin)  |
 | POST   | [/rgbw/set_pwm](#post-rgbwsetpwm)  |
@@ -87,6 +88,22 @@ Example Response
 
 ```text
 picow_micropython_v0.0.1
+```
+
+### **GET** _"/server"_
+
+Get web server address in use.
+
+Example Request
+
+```bash
+curl http://192.168.178.50:80/server
+```
+
+Example Response
+
+```text
+http://192.168.178.20:50833
 ```
 
 ### **POST** _"/server"_
