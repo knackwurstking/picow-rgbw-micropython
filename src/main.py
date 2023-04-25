@@ -1,28 +1,37 @@
+import _thread
 import contextlib
 import gc
 import socket
 
-import _thread
+import config
+import handler
 import machine
 import network
 import utime
 from picozero import pico_led
 
-import config
-import handler
-
 
 def log(message: str):
-    with open("pico.log", "a") as f:
-        f.write(message)
+    with open("pico.log", "a", encoding="utf-8") as file:
+        file.write(message)
+
+
+def debug(message: str):
+    if not config.DEBUG:
+        return
+
+    log("DEBUG:" + message)
+
+
+def error(message: str):
+    log("ERROR:" + message)
 
 
 def connect(wlan: network.WLAN, skip: bool = False):
-    """Connect to WLAN (ssid, password)"""
-    log("Connecting wlan...\n")
+    debug("Connecting wlan...\n")
 
     wlan.active(True)
-    #wlan.config(pm=0xa11140)  # disable power-save mode
+    # wlan.config(pm=0xa11140)  # disable power-save mode
     wlan.connect(config.SSID, config.PASSWORD)
 
     if skip:
@@ -30,10 +39,10 @@ def connect(wlan: network.WLAN, skip: bool = False):
 
     while not wlan.isconnected():
         if not wait_for_wlan_connection(wlan):
-            log("...connection to wlan failed, try re-connecting...\n")
+            debug("...connection to wlan failed, try re-connecting...\n")
             wlan = connect(network.WLAN(network.STA_IF))
 
-    log("...connection established.\n")
+    debug("...connection established.\n")
 
     # Register this device on the server
     config.load()
@@ -74,7 +83,7 @@ def open_socket():
 def serve(c):
     """Start the web server"""
     while True:
-        log("Waiting for client!\n")
+        debug("Waiting for client!\n")
         gc.collect()
         client = c.accept()[0]
 
@@ -95,7 +104,7 @@ def handle_request(req: str):
     with contextlib.suppress(IndexError):
         method, pathname, query = handler.utils.parse_request(req)
 
-    log(f"method={method} | pathname={pathname} | query={query}\n")
+    debug(f"method={method} | pathname={pathname} | query={query}\n")
 
     if pathname[:13] == "/rgbw/set_pin" and method == "POST":
         return handler.rgbw.post_pin(handler.utils.parse_query(query))
@@ -134,7 +143,7 @@ try:
     serve(c)
 except Exception as e:
     print(e)
-    log(str(e) + "\n")
+    error(str(e) + "\n")
 finally:
     machine.reset()
     utime.sleep(1)

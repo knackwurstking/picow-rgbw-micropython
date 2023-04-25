@@ -3,6 +3,8 @@ import json
 
 import urequests
 
+DEBUG = False
+
 SSID = ""
 PASSWORD = ""
 
