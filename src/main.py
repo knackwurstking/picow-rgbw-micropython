@@ -46,7 +46,11 @@ def connect(wlan: network.WLAN, skip: bool = False):
 
     # Register this device on the server
     config.load()
-    config.register_to_server(wlan.ifconfig()[0])
+
+    try:
+        config.register_to_server(wlan.ifconfig()[0])
+    except Exception as err:
+        error(str(err) + "\n")
 
     return wlan
 

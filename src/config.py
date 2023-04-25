@@ -24,13 +24,12 @@ SERVER = {
 
 def register_to_server(ip: str):
     if SERVER.get("protocol") and SERVER.get("host") and SERVER.get("port"):
-        with contextlib.suppress(Exception):
-            urequests.post(
-                f'{SERVER["protocol"]}//{SERVER["host"]}:{SERVER["port"]}{UPDATE_PATH}',
-                json={
-                    "addr": f"{ip}:{PORT}"
-                }
-            )
+        urequests.post(
+            f'{SERVER["protocol"]}//{SERVER["host"]}:{SERVER["port"]}{UPDATE_PATH}',
+            json={
+                "addr": f"{ip}:{PORT}"
+            }
+        )
 
 
 def save():
