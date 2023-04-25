@@ -155,4 +155,5 @@ Example Response
 ## TODOs
 
 - [ ] README: Add a getting started section
-- [ ] rename "/device" to "/version"
+- [ ] Rename "/device" to "/version"
+- [ ] Adding debug log (enable and disable in config.py)
