@@ -6,6 +6,7 @@
   - [Server Info](#server-info)
     - [**GET** _"/"_](#get)
     - [**GET** _"/device"_](#get-device)
+    - [**GET** _"/server"_](#get-server)
     - [**POST** _"/server"_](#post-server)
     - [**POST** _"/rgbw/set_pin"_](#post-rgbwsetpin)
     - [**POST** _"/rgbw/set_pwm"_](#post-rgbwsetpwm)
