@@ -156,4 +156,4 @@ Example Response
 
 - [ ] README: Add a getting started section
 - [ ] Rename "/device" to "/version"
-- [ ] Adding debug log (enable and disable in config.py)
+- [x] Adding debug log (enable and disable in config.py)
