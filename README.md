@@ -19,7 +19,7 @@ Control rgbw stripes (pwm mode)
 ## Getting Started
 
 > Have a look here: [https://projects.raspberrypi.org/en/projects/get-started-pico-w/1]  
-> NOTE: in [/src/config.py](src/config.py) put in your wifi credentials (`SSID` and `PASSWORD`)
+> NOTE: in [src/config.py](src/config.py) put in your wifi credentials (`SSID` and `PASSWORD`)
 
 @TODO: ...
 
