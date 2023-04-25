@@ -33,13 +33,13 @@ Control rgbw stripes (pwm mode)
 
 ## Server Info
 
-| Method | Pathname                       |
-| ------ | ------------------------------ |
-| GET    | [/](#info_page)                |
+| Method | Pathname                           |
+| ------ | ---------------------------------- |
+| GET    | [/](#info_page)                    |
 | GET    | [/device](#get-device)             |
-| POST   | [/server](#post-server)             |
-| POST   | [/rgbw/set_pin](#post-rgbwsetpin)   |
-| POST   | [/rgbw/set_pwm](#post-rgbwsetpwm)   |
+| POST   | [/server](#post-server)            |
+| POST   | [/rgbw/set_pin](#post-rgbwsetpin)  |
+| POST   | [/rgbw/set_pwm](#post-rgbwsetpwm)  |
 | GET    | [/rgbw/get_pins](#get-rgbwgetpins) |
 | GET    | [/rgbw/get_duty](#get-rgbwgetduty) |
 
