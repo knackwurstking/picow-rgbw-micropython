@@ -175,3 +175,5 @@ Example Response
 - [ ] README: Add a getting started section
 - [ ] Rename "/device" to "/version"
 - [x] Adding debug log (enable and disable in config.py)
+- [ ] rewrite server (pure tcp server for data transfer via json data?)
+      (should be debuggable via telnet client)
