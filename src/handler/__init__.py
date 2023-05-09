@@ -88,10 +88,8 @@ def request_handler(req: bytes) -> None | str:
     http://192.168.178.20:50833
 
     """
+    # TODO: split commands on "\n" and ";"
 
-    # TODO: read data from request (json unmarshal)
-    # data format: `{ command: str, options: dict }`
+    # TODO: split command on space(s) " "
 
-    # TODO: run command with options
-
-    # TODO: return json data or close on empty response
+    # TODO: search for command and run or just close on error
