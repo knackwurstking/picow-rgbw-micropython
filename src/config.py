@@ -1,46 +1,41 @@
 import contextlib
-import json
 
 import urequests
 
-DEBUG = False
+DEBUG: bool = False
 
-SSID = ""
-PASSWORD = ""
+SSID: str = ""
+PASSWORD: str = ""
 
-APPLICATION = "picow_micropython"
-VERSION = "0.0.1"
+DEVICE: str = "picow"
+LANGUAGE: str = "micropython"
+VERSION: str = "0.0.1"
 
-PORT = 80
+PORT: int = 80
 
-UPDATE_PATH = "/api/v1/picow"
-
-SERVER = {
-    "protocol": "http:",
-    "host": "",
-    "port": 50833,
-}
+SERVER_UPDATE_PATH: str = "/api/v1/picow"
+SERVER: str = ""
 
 
 def register_to_server(ip: str):
-    if SERVER.get("protocol") and SERVER.get("host") and SERVER.get("port"):
-        urequests.post(
-            f'{SERVER["protocol"]}//{SERVER["host"]}:{SERVER["port"]}{UPDATE_PATH}',
-            json={
-                "addr": f"{ip}:{PORT}"
-            }
-        )
+    if SERVER == "":
+        return
+
+    urequests.post(f'{SERVER}{SERVER_UPDATE_PATH}',
+                   json={"addr": f"{ip}:{PORT}"})
 
 
 def save():
-    if SERVER.get("protocol") and SERVER.get("host") and SERVER.get("port"):
-        with open("server.json", "w") as c:
-            c.write(json.dumps(SERVER))
+    if SERVER == "":
+        return
+
+    with open("server.json", "w", encoding="utf-8") as file:
+        file.write(SERVER)
 
 
 def load():
     global SERVER
 
     with contextlib.suppress(Exception):
-        with open("server.json", "r") as c:
-            SERVER = json.load(c)
+        with open("server.json", "r", encoding="utf-8") as file:
+            SERVER = file.read().strip(" \n")
