@@ -1,106 +1,26 @@
-import _thread
 import contextlib
-import gc
-import socket
 
-import config
 import handler
+import log
 import machine
-import network
+import server
 import utime
+import wifi
 from picozero import pico_led
 
 
-def log(message: str):
-    with open("pico.log", "a", encoding="utf-8") as file:
-        file.write(message)
+def request_handler(req: str):
+    # TODO: read data from request (json unmarshal)
+    # data format: `{ command: str, options: dict }`
+
+    # TODO: run command with options
+
+    # TODO: return json data or close on empty response
+
+    pass
 
 
-def debug(message: str):
-    if not config.DEBUG:
-        return
-
-    log("DEBUG:" + message)
-
-
-def error(message: str):
-    log("ERROR:" + message)
-
-
-def connect(wlan: network.WLAN, skip: bool = False):
-    debug("Connecting wlan...\n")
-
-    wlan.active(True)
-    # wlan.config(pm=0xa11140)  # disable power-save mode
-    wlan.connect(config.SSID, config.PASSWORD)
-
-    if skip:
-        return wlan
-
-    while not wlan.isconnected():
-        if not wait_for_wlan_connection(wlan):
-            debug("...connection to wlan failed, try re-connecting...\n")
-            wlan = connect(network.WLAN(network.STA_IF))
-
-    debug("...connection established.\n")
-
-    # Register this device on the server
-    config.load()
-
-    try:
-        config.register_to_server(wlan.ifconfig()[0])
-    except Exception as err:
-        error(str(err) + "\n")
-
-    return wlan
-
-
-def t_wifi(wlan: network.WLAN):
-    while True:
-        if not wlan.isconnected():
-            wlan = connect(network.WLAN(network.STA_IF))
-        else:
-            utime.sleep(5)
-
-
-def wait_for_wlan_connection(wlan: network.WLAN):
-    c = 0
-    while wlan.isconnected() is False:
-        utime.sleep(1)
-
-        c += 1
-        if c > 4:
-            return False
-
-    return True
-
-
-def open_socket():
-    """Open a socket."""
-    a = ("0.0.0.0", config.PORT)
-    c = socket.socket()
-    c.bind(a)
-    c.listen(1)
-    return c
-
-
-def serve(c):
-    """Start the web server"""
-    while True:
-        debug("Waiting for client!\n")
-        gc.collect()
-        client = c.accept()[0]
-
-        header, body = handle_request(str(client.recv(1024)))
-        if header:
-            client.send(header)
-        if body:
-            client.send(body)
-
-        client.close()
-
-
-def handle_request(req: str):
+def request_handler_web(req: str):
     method: str = ""
     pathname: str = ""
     query: list[str] = []
@@ -108,7 +28,7 @@ def handle_request(req: str):
     with contextlib.suppress(IndexError):
         method, pathname, query = handler.utils.parse_request(req)
 
-    debug(f"method={method} | pathname={pathname} | query={query}\n")
+    log.debug(f"method={method} | pathname={pathname} | query={query}\n")
 
     if pathname[:13] == "/rgbw/set_pin" and method == "POST":
         return handler.rgbw.post_pin(handler.utils.parse_query(query))
@@ -138,16 +58,15 @@ def handle_request(req: str):
 
 
 try:
-    wlan = connect(network.WLAN(network.STA_IF))
-    _thread.start_new_thread(t_wifi, (wlan,))
+    wifi.start()
 
     pico_led.on()
-    c = open_socket()
 
-    serve(c)
+    sock = server.open()
+    server.serve(sock, request_handler)
 except Exception as e:
     print(e)
-    error(str(e) + "\n")
+    log.error(str(e) + "\n")
 finally:
     machine.reset()
     utime.sleep(1)
