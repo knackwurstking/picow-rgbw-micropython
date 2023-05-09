@@ -1,3 +1,31 @@
+commands = {
+    "rgbw": {
+        "color": {
+            "get": rgbw_color_get,
+            "set": rgbw_color_set,
+        },
+        "gp": {
+            "get": rgbw_gp_get,
+            "set": rgbw_gp_set,
+        },
+    },
+    "version": version,
+    "info": {
+        "temp": info_temp,
+    },
+    "device": {
+        "pwm": {
+            "range": device_pwm_range,
+            "freq": device_pwm_freq,
+        },
+        "server": {
+            "get": device_server_get,
+            "set": device_server_set,
+        },
+    },
+}
+
+
 def request_handler(req: bytes):
     """TCP request handler...
 
