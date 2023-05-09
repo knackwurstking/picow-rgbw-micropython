@@ -51,7 +51,7 @@ commands: dict[
 }
 
 
-def request_handler(req: bytes) -> None | str:
+def request_handler(req: str) -> None | str:
     """TCP request handler...
 
     Each command is separated with a '\\n' or a ';'
@@ -88,7 +88,11 @@ def request_handler(req: bytes) -> None | str:
     http://192.168.178.20:50833
 
     """
-    # TODO: split commands on "\n" and ";"
+    # split request on "\n" and ";" to get commands
+    req_split: list[str] = []
+    for part in req.split("\n"):
+        for command in part.split(";"):
+            req_split.append(command)
 
     # TODO: split command on space(s) " "
 
