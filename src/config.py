@@ -16,8 +16,11 @@ PORT: int = 80
 SERVER_UPDATE_PATH: str = "/api/v1/picow"
 SERVER: str = ""
 
+PWM_FREQ = 1000
 
-def register_to_server(ip: str):
+
+def register_to_server(ip: str) -> None:
+    """..."""
     if SERVER == "":
         return
 
@@ -25,7 +28,8 @@ def register_to_server(ip: str):
                    json={"addr": f"{ip}:{PORT}"})
 
 
-def save():
+def save() -> None:
+    """..."""
     if SERVER == "":
         return
 
@@ -33,7 +37,8 @@ def save():
         file.write(SERVER)
 
 
-def load():
+def load() -> None:
+    """..."""
     global SERVER
 
     with contextlib.suppress(Exception):

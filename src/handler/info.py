@@ -1,2 +1,2 @@
-def info_temp():
-    pass
+def info_temp() -> None:
+    """..."""

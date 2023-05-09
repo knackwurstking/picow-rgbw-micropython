@@ -1,4 +1,29 @@
-commands = {
+from typing import Callable
+
+from handler.device import device_pwm_freq
+from handler.device import device_pwm_range
+from handler.device import device_server_get
+from handler.device import device_server_set
+from handler.info import info_temp
+from handler.rgbw import rgbw_color_get
+from handler.rgbw import rgbw_color_set
+from handler.rgbw import rgbw_gp_get
+from handler.rgbw import rgbw_gp_set
+from handler.version import version
+
+commands: dict[
+    str,
+    dict[
+        str,
+        dict[
+            str,
+            dict[
+                str,
+                Callable[[], None | str]
+            ] | Callable[[], None | str]
+        ] | Callable[[], None | str]
+    ] | Callable[[], None | str]
+] = {
     "rgbw": {
         "color": {
             "get": rgbw_color_get,
@@ -26,7 +51,7 @@ commands = {
 }
 
 
-def request_handler(req: bytes):
+def request_handler(req: bytes) -> None | str:
     """TCP request handler...
 
     Each command is separated with a '\\n' or a ';'
@@ -70,5 +95,3 @@ def request_handler(req: bytes):
     # TODO: run command with options
 
     # TODO: return json data or close on empty response
-
-    pass

@@ -1,27 +1,30 @@
 import gc
 import socket
+from typing import Callable
 
 import config
 import log
 
 
-def open():
+def create() -> socket.socket:
     """Open a socket."""
     address = ("0.0.0.0", config.PORT)
     sock = socket.socket()
     sock.bind(address)
     sock.listen(1)
+
     return sock
 
 
-def serve(sock, handler):
+def serve(sock, handler: Callable[[bytes], None | str]) -> None:
+    """..."""
     while True:
         log.debug("Waiting for client!\n")
         gc.collect()
         client = sock.accept()[0]
 
         resp = handler(client.recv(1024))
-        if resp:
+        if resp is not None:
             client.send(resp)
 
         client.close()

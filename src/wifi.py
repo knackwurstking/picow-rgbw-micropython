@@ -7,6 +7,7 @@ import utime
 
 
 def connect(wlan: network.WLAN, skip: bool = False):
+    """..."""
     log.debug("Connecting wlan...\n")
 
     wlan.active(True)
@@ -35,6 +36,7 @@ def connect(wlan: network.WLAN, skip: bool = False):
 
 
 def wait_for_wlan_connection(wlan: network.WLAN):
+    """..."""
     count = 0
     while wlan.isconnected() is False:
         utime.sleep(1)
@@ -47,6 +49,7 @@ def wait_for_wlan_connection(wlan: network.WLAN):
 
 
 def t_wifi(wlan: network.WLAN):
+    """..."""
     while True:
         if not wlan.isconnected():
             wlan = connect(network.WLAN(network.STA_IF))
@@ -55,5 +58,6 @@ def t_wifi(wlan: network.WLAN):
 
 
 def start():
+    """..."""
     wlan = connect(network.WLAN(network.STA_IF))
     _thread.start_new_thread(t_wifi, (wlan,))
