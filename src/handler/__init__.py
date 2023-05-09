@@ -17,6 +17,23 @@ def request_handler(req: bytes):
     >>> version
     picow micropython v0.0.1
 
+    Get device temperature
+    >>> info temp
+    22.8311
+
+    Get device pwm range (`<min %> <max %>`)
+    >>> device pwm range
+    0 100
+
+    Get device pwm frequency
+    >>> device pwm freq
+    1000
+
+    Get/Set the web server for registration on after boot
+    >>> device server set http://192.168.178.20:50833
+    >>> device server get
+    http://192.168.178.20:50833
+
     """
 
     # TODO: read data from request (json unmarshal)
