@@ -16,14 +16,14 @@ def create() -> socket.socket:
     return sock
 
 
-def serve(sock, handler: Callable[[bytes], None | str]) -> None:
+def serve(sock, handler: Callable[[str], None | str]) -> None:
     """..."""
     while True:
         log.debug("Waiting for client!\n")
         gc.collect()
         client = sock.accept()[0]
 
-        resp = handler(client.recv(1024))
+        resp = handler(str(client.recv(1024)))
         if resp is not None:
             client.send(resp)
 
