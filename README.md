@@ -38,12 +38,8 @@ Control rgbw stripes (pwm mode)
 | ------ | ---------------------------------- |
 | GET    | [/](#info_page)                    |
 | GET    | [/device](#get-device)             |
-| GET    | [/server](#get-server)            |
+| GET    | [/server](#get-server)             |
 | POST   | [/server](#post-server)            |
-| POST   | [/rgbw/set_pin](#post-rgbwsetpin)  |
-| POST   | [/rgbw/set_pwm](#post-rgbwsetpwm)  |
-| GET    | [/rgbw/get_pins](#get-rgbwgetpins) |
-| GET    | [/rgbw/get_duty](#get-rgbwgetduty) |
 
 <a id="info_page"></a>
 
@@ -116,58 +112,6 @@ Example Request
 
 ```bash
 curl 'http://192.168.178.50:80/server?host=192.168.178.50'
-```
-
-### **POST** _"/rgbw/set_pin"_
-
-Set gpio pin to use as rgbw, range between 0-28.
-
-Example Request
-
-```bash
-curl 'http://192.168.178.50:80/rgbw/set_pwm?r=0&g=1&b=2&w=3'
-```
-
-### **POST** _"/rgbw/set_pwm"_
-
-Set the (rgbw) pwm pin duty cycle, range between 0-100.
-
-Example Request
-
-```bash
-curl 'http://192.168.178.50:80/rgbw/set_pwm?r=100&g=100&b=100&w=100'
-```
-
-### **GET** _"/rgbw/get_pins"_
-
-Get gpio pins in use for rgbw, Range between 0-28.
-
-Example Request
-
-```bash
-curl https://192.168.178.50:80/rgbw/get_pins
-```
-
-Example Response
-
-```text
-0 1 2 3
-```
-
-### **GET** _"/rgbw/get_duty"_
-
-Get the current rgbw duty cycle, range between 0-100.
-
-Example Request
-
-```bash
-curl https://192.168.178.50:80/rgbw/get_pins
-```
-
-Example Response
-
-```text
-0 1 2 3
 ```
 
 ## TODOs

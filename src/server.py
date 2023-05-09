@@ -20,10 +20,8 @@ def serve(sock, handler):
         gc.collect()
         client = sock.accept()[0]
 
-        header, body = handler(str(client.recv(1024)))
-        if header:
-            client.send(header)
-        if body:
-            client.send(body)
+        resp = handler(client.recv(1024))
+        if resp:
+            client.send(resp)
 
         client.close()

@@ -9,17 +9,6 @@ import wifi
 from picozero import pico_led
 
 
-def request_handler(req: str):
-    # TODO: read data from request (json unmarshal)
-    # data format: `{ command: str, options: dict }`
-
-    # TODO: run command with options
-
-    # TODO: return json data or close on empty response
-
-    pass
-
-
 def request_handler_web(req: str):
     method: str = ""
     pathname: str = ""
@@ -63,7 +52,7 @@ try:
     pico_led.on()
 
     sock = server.open()
-    server.serve(sock, request_handler)
+    server.serve(sock, handler.request_handler)
 except Exception as e:
     print(e)
     log.error(str(e) + "\n")
