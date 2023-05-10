@@ -1,9 +1,9 @@
 import _thread
-import time
 
 import config
 import log
 import network
+import utime as time
 
 
 def connect(wlan: network.WLAN, skip: bool = False):
