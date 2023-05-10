@@ -12,6 +12,11 @@ def get() -> str:
         return file.read()
 
 
+def clear() -> None:
+    """Remove all stuff from the pico.log file"""
+    # TODO: clear log file
+
+
 def log(message: str) -> None:
     """..."""
     with open("pico.log", "a", encoding="utf-8") as file:
