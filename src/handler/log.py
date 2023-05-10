@@ -9,7 +9,7 @@ def log_get(_args: list[str]) -> str:
 
 def log_clear(_args: list[str]) -> None:
     """..."""
-    return log.clear()
+    log.clear()
 
 
 def log_debug_enable(_args: list[str]) -> None:
