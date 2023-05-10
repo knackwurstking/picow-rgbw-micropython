@@ -71,21 +71,21 @@ def get_command(cmd: str, args: list[str]) -> None | Callable[[], None | str]:
     if commands.get(cmd) is None:
         return None
 
-    # NOTE: check zero level for callable (ex: "log", ...)
+    # check zero level for callable (ex: "log", ...)
     if not isinstance(commands[cmd], dict):
         return commands[cmd]
 
-    # NOTE: check first level for args[0] (ex: "get", "clear")
+    # check first level for args[0] (ex: "get", "clear")
     for key, value in commands[cmd].items():
         if args[0] == key:
             if not isinstance(value, dict):
                 return value
 
-            # NOTE: check second level for args[1] (ex: "enable", "disable")
+            # check second level for args[1] (ex: "enable", "disable")
             for key, value in value.items():
                 if args[1] == key:
                     if isinstance(value, dict):
-                        # NOTE: should never happen
+                        # should never happen
                         break
 
                     if key == args[1]:
@@ -166,4 +166,4 @@ def request_handler(req: str) -> None | str:
         log.debug(f"running command: {args}")
 
         command = get_command(cmd, args)
-        return command(args) if command is not None else None
+        return command() if command is not None else None
