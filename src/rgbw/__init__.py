@@ -11,7 +11,7 @@ class Pin:
     """..."""
 
     def __init__(self, color: str, pin: int):
-        self.current_duty = 0  # 0-100%
+        self.current_duty = config.PWM_DUTY_MIN  # 0-100%
         self.color = color
         self.pin = pin
         self.pwm = machine.PWM(machine.Pin(pin, value=1))
@@ -20,7 +20,7 @@ class Pin:
 
     def set_duty_cycle(self, value: int) -> None:
         """..."""
-        self.pwm.duty_u16(int((1 - (value / 100)) * U16_MAX))
+        self.pwm.duty_u16(int((1 - (value / config.PWM_DUTY_MAX)) * U16_MAX))
         self.current_duty = value
 
     def get_duty_cycle(self) -> int:
