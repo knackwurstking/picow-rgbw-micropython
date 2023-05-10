@@ -27,7 +27,7 @@ Control rgbw stripes (pwm mode)
 ## Commands (Examples)
 
 ```text
-Each command is separated with a '\n' or a ';'
+Each command is separated with a '\\n' or a ';'
 
 Get/Set RGBW color, in range from 0 to 100.
 >>> rgbw color set 100 100 100 100
@@ -46,6 +46,22 @@ picow micropython v0.0.1
 Get device temperature
 >>> info temp
 22.8311
+
+Get disk usage info (`<used> <free>`)
+>>> info disk-usage
+
+Get device logs
+>>> log get
+[DEBUG] ...
+[ INFO] ...
+...
+
+Enable/Disable debugging
+>>> log debug enable
+>>> log debug disable
+
+Clear all device logs
+>>> log clear
 
 Get device pwm range (`<min %> <max %>`)
 >>> device pwm range

@@ -74,6 +74,22 @@ def request_handler(req: str) -> None | str:
     >>> info temp
     22.8311
 
+    Get disk usage info (`<used> <free>`)
+    >>> info disk-usage
+
+    Get device logs
+    >>> log get
+    [DEBUG] ...
+    [ INFO] ...
+    ...
+
+    Enable/Disable debugging
+    >>> log debug enable
+    >>> log debug disable
+
+    Clear all device logs
+    >>> log clear
+
     Get device pwm range (`<min %> <max %>`)
     >>> device pwm range
     0 100
