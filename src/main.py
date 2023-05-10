@@ -1,9 +1,8 @@
-import time
-
 import handler
 import log
 import machine
 import server
+import utime as time
 import wifi
 from picozero import pico_led
 
