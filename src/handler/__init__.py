@@ -4,7 +4,12 @@ from handler.device import device_pwm_freq
 from handler.device import device_pwm_range
 from handler.device import device_server_get
 from handler.device import device_server_set
+from handler.info import info_disk_usage
 from handler.info import info_temp
+from handler.log import log_clear
+from handler.log import log_debug_disable
+from handler.log import log_debug_enable
+from handler.log import log_get
 from handler.rgbw import rgbw_color_get
 from handler.rgbw import rgbw_color_set
 from handler.rgbw import rgbw_gp_get
@@ -37,6 +42,7 @@ commands: dict[
     "version": version,
     "info": {
         "temp": info_temp,
+        "disk-usage": info_disk_usage,
     },
     "device": {
         "pwm": {
@@ -47,6 +53,14 @@ commands: dict[
             "get": device_server_get,
             "set": device_server_set,
         },
+    },
+    "log": {
+        "get": log_get,
+        "clear": log_clear,
+        "debug": {
+            "enable": log_debug_enable,
+            "disable": log_debug_disable,
+        }
     },
 }
 
