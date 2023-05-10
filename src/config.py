@@ -1,6 +1,6 @@
 import contextlib
 
-import urequests
+import requests
 
 DEBUG: bool = False
 
@@ -24,8 +24,8 @@ def register_to_server(ip: str) -> None:
     if SERVER == "":
         return
 
-    urequests.post(f'{SERVER}{SERVER_UPDATE_PATH}',
-                   json={"addr": f"{ip}:{PORT}"})
+    requests.post(f'{SERVER}{SERVER_UPDATE_PATH}',
+                  json={"addr": f"{ip}:{PORT}"})
 
 
 def save() -> None:
