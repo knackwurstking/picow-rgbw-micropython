@@ -1,6 +1,6 @@
 import contextlib
 
-import requests
+import urequests as requests
 
 DEBUG: bool = False
 
@@ -17,6 +17,8 @@ SERVER_UPDATE_PATH: str = "/api/v1/picow"
 SERVER: str = ""
 
 PWM_FREQ = 1000
+PWM_DUTY_MIN = 0
+PWM_DUTY_MAX = 100
 
 
 def register_to_server(ip: str) -> None:
