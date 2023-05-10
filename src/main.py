@@ -14,9 +14,8 @@ try:
 
     sock = server.create()
     server.serve(sock, handler.request_handler)
-except Exception as e:
-    print(e)
-    log.error(str(e) + "\n")
+except Exception as err:
+    log.error(f"exception: {str(err)}")
 finally:
     machine.reset()
     utime.sleep(1)

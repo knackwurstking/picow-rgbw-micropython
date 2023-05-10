@@ -19,12 +19,17 @@ def create() -> socket.socket:
 def serve(sock, handler: Callable[[str], None | str]) -> None:
     """..."""
     while True:
-        log.debug("Waiting for client!\n")
         gc.collect()
+
+        log.debug("waiting for client...")
         client = sock.accept()[0]
 
-        resp = handler(str(client.recv(1024)))
-        if resp is not None:
-            client.send(resp)
-
-        client.close()
+        try:
+            resp = handler(str(client.recv(1024)))
+            log.debug(f"got response: {resp}")
+            if resp is not None:
+                client.send(resp)
+        except Exception as err:
+            log.error(f"exception: {err}")
+        finally:
+            client.close()

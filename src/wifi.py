@@ -8,7 +8,7 @@ import utime
 
 def connect(wlan: network.WLAN, skip: bool = False):
     """..."""
-    log.debug("Connecting wlan...\n")
+    log.debug("Connecting wlan...")
 
     wlan.active(True)
     # wlan.config(pm=0xa11140)  # disable power-save mode
@@ -19,10 +19,10 @@ def connect(wlan: network.WLAN, skip: bool = False):
 
     while not wlan.isconnected():
         if not wait_for_wlan_connection(wlan):
-            log.debug("...connection to wlan failed, try re-connecting...\n")
+            log.debug("...connection to wlan failed, try re-connecting...")
             wlan = connect(network.WLAN(network.STA_IF))
 
-    log.debug("...connection established.\n")
+    log.debug("...connection established.")
 
     # Register this device on the server
     config.load()
@@ -30,7 +30,7 @@ def connect(wlan: network.WLAN, skip: bool = False):
     try:
         config.register_to_server(wlan.ifconfig()[0])
     except Exception as err:
-        log.error(str(err) + "\n")
+        log.error(f"exception: {str(err)}")
 
     return wlan
 
