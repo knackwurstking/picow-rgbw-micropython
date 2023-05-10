@@ -1,9 +1,9 @@
 import _thread
+import time
 
 import config
 import log
 import network
-import utime
 
 
 def connect(wlan: network.WLAN, skip: bool = False):
@@ -39,7 +39,7 @@ def wait_for_wlan_connection(wlan: network.WLAN):
     """..."""
     count = 0
     while wlan.isconnected() is False:
-        utime.sleep(1)
+        time.sleep(1)
 
         count += 1
         if count > 4:
