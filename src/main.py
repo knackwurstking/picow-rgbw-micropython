@@ -1,8 +1,9 @@
+import time
+
 import handler
 import log
 import machine
 import server
-import utime
 import wifi
 from picozero import pico_led
 
@@ -18,4 +19,4 @@ except Exception as err:
     log.error(f"exception: {str(err)}")
 finally:
     machine.reset()
-    utime.sleep(1)
+    time.sleep(1)
