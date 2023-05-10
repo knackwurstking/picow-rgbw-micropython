@@ -14,7 +14,11 @@ def get() -> str:
 
 def clear() -> None:
     """Remove all stuff from the pico.log file"""
-    # TODO: clear log file
+    if not os.path.exists("pico.log"):
+        return None
+
+    with open("pico.log", "w", encoding="utf-8") as file:
+        file.write("")
 
 
 def log(message: str) -> None:
