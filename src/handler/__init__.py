@@ -25,10 +25,10 @@ commands: dict[
             str,
             dict[
                 str,
-                Callable[[], None | str]
-            ] | Callable[[], None | str]
-        ] | Callable[[], None | str]
-    ] | Callable[[], None | str]
+                Callable[[list[str]], None | str]
+            ] | Callable[[list[str]], None | str]
+        ] | Callable[[list[str]], None | str]
+    ] | Callable[[list[str]], None | str]
 ] = {
     "rgbw": {
         "color": {
@@ -66,7 +66,7 @@ commands: dict[
 }
 
 
-def get_command(cmd: str, args: list[str]) -> None | Callable[[], None | str]:
+def get_command(cmd: str, args: list[str]) -> None | Callable[[list[str]], None | str]:
     # NOTE: i hate python :(
     if commands.get(cmd) is None:
         return None
@@ -166,4 +166,4 @@ def request_handler(req: str) -> None | str:
         log.debug(f"running command: {args}")
 
         command = get_command(cmd, args)
-        return command() if command is not None else None
+        return command(args) if command is not None else None

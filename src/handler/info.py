@@ -1,6 +1,6 @@
-def info_temp() -> None:
+def info_temp(args: list[str]) -> None:
     """..."""
 
 
-def info_disk_usage() -> None:
+def info_disk_usage(args: list[str]) -> None:
     """..."""
