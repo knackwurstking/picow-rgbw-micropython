@@ -1,17 +1,18 @@
 import log
 
 
-def log_get(args: list[str]) -> None:
+def log_get(_args: list[str]) -> str:
+    """..."""
+    return log.get()
+
+
+def log_clear(_args: list[str]) -> None:
     """..."""
 
 
-def log_clear(args: list[str]) -> None:
+def log_debug_enable(_args: list[str]) -> None:
     """..."""
 
 
-def log_debug_enable(args: list[str]) -> None:
-    """..."""
-
-
-def log_debug_disable(args: list[str]) -> None:
+def log_debug_disable(_args: list[str]) -> None:
     """..."""
