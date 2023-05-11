@@ -10,8 +10,15 @@ def rgbw_color_set(args: list[str]) -> None:
     """..."""
 
 
-def rgbw_gp_get(args: list[str]) -> None:
+def rgbw_gp_get(_args: list[str]) -> str:
     """..."""
+    pins_rgbw: list[str] = ["-1", "-1", "-1", "-1"]
+
+    for idx, color in enumerate(["r", "g", "b", "w"]):
+        if color in rgbw.pins:
+            pins_rgbw[idx] = str(rgbw.pins[color].pin)
+
+    return " ".join(pins_rgbw)
 
 
 def rgbw_gp_set(args: list[str]) -> None:
