@@ -1,3 +1,4 @@
+import config
 import handler
 import log
 import machine
