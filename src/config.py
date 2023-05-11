@@ -22,7 +22,7 @@ PWM_DUTY_MIN = 0
 PWM_DUTY_MAX = 100
 
 
-def register_to_server(ip: str) -> None:
+def register_to_server(ip):
     """..."""
     if SERVER == "":
         return
@@ -31,7 +31,7 @@ def register_to_server(ip: str) -> None:
                   json={"addr": f"{ip}:{PORT}"})
 
 
-def save() -> None:
+def save():
     """..."""
     if SERVER == "":
         return
@@ -40,7 +40,7 @@ def save() -> None:
         file.write(SERVER)
 
 
-def load() -> None:
+def load():
     """..."""
     global SERVER
 
