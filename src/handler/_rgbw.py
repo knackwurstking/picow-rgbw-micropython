@@ -10,7 +10,7 @@ def rgbw_color_get(_args: list[str]) -> str:
         if color in rgbw.pins:
             pins_color[idx] = str(rgbw.pins[color].get_duty_cycle())
 
-    return " ".join(pins_color)
+    return " ".join(pins_color) + "\n"
 
 
 def rgbw_color_set(args: list[str]) -> None:
@@ -43,7 +43,7 @@ def rgbw_gp_get(_args: list[str]) -> str:
         if color in rgbw.pins:
             pins_rgbw[idx] = str(rgbw.pins[color].pin)
 
-    return " ".join(pins_rgbw)
+    return " ".join(pins_rgbw) + "\n"
 
 
 def rgbw_gp_set(args: list[str]) -> None:
