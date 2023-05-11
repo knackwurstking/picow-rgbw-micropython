@@ -1,5 +1,6 @@
 import contextlib
 
+import log
 import urequests as requests
 
 DEBUG: bool = False
@@ -42,6 +43,8 @@ def save() -> None:
 def load() -> None:
     """..."""
     global SERVER
+
+    log.debug("load 'server.json' data (if exists)")
 
     with contextlib.suppress(Exception):
         with open("server.json", "r", encoding="utf-8") as file:

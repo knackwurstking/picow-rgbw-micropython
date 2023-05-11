@@ -2,6 +2,7 @@ import contextlib
 import json
 
 import config
+import log
 import machine
 
 U16_MAX = 65535
@@ -69,6 +70,8 @@ def save() -> None:
 
 def load() -> None:
     """..."""
+    log.debug("load 'rgbw.json' data (if exists)")
+
     with contextlib.suppress(Exception):
         with open("rgbw.json", "r", encoding="utf-8") as file:
             # NOTE: tuple: color, pin, duty
