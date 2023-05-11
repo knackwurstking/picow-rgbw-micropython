@@ -2,8 +2,15 @@ import log
 import rgbw
 
 
-def rgbw_color_get(args: list[str]) -> None:
+def rgbw_color_get(_args: list[str]) -> str:
     """..."""
+    pins_color: list[str] = ["-1", "-1", "-1", "-1"]
+
+    for idx, color in enumerate(["r", "g", "b", "w"]):
+        if color in rgbw.pins:
+            pins_color[idx] = str(rgbw.pins[color].get_duty_cycle())
+
+    return " ".join(pins_color)
 
 
 def rgbw_color_set(args: list[str]) -> None:
