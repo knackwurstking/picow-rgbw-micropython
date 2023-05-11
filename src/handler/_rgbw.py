@@ -28,3 +28,5 @@ def rgbw_gp_set(args: list[str]) -> None:
     for idx, color in enumerate(["r", "g", "b", "w"]):
         rgbw.remove(color)
         rgbw.add(color, pins_rgbw[idx])
+
+    return None
