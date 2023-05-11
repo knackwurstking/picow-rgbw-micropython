@@ -1,5 +1,4 @@
-import os
-
+import uos as os
 from picozero import pico_temp_sensor
 
 
