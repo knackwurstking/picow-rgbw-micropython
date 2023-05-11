@@ -15,6 +15,24 @@ def rgbw_color_get(_args: list[str]) -> str:
 
 def rgbw_color_set(args: list[str]) -> None:
     """..."""
+    pins_color: list[int] = [0, 0, 0, 0]
+
+    # parse args
+    for idx, color in enumerate(args):
+        try:
+            pins_color[idx] = int(color)
+        except Exception as err:
+            log.error(f"exception: {str(err)}")
+            return None
+
+    # add color duty cycle to rgbw
+    for idx, color in enumerate(["r", "g", "b", "w"]):
+        pin = rgbw.get(color)
+
+        if pin is not None:
+            pin.set_duty_cycle(pins_color[idx])
+
+    return None
 
 
 def rgbw_gp_get(_args: list[str]) -> str:
@@ -32,6 +50,7 @@ def rgbw_gp_set(args: list[str]) -> None:
     """..."""
     pins_rgbw = [0, 0, 0, 0]
 
+    # parse args
     for idx, pin in enumerate(args):
         try:
             pins_rgbw[idx] = int(pin)
@@ -39,6 +58,7 @@ def rgbw_gp_set(args: list[str]) -> None:
             log.error(f"exception: {str(err)}")
             return None
 
+    # add pin to rgbw
     for idx, color in enumerate(["r", "g", "b", "w"]):
         rgbw.remove(color)
         rgbw.add(color, pins_rgbw[idx])
