@@ -56,17 +56,17 @@ def get_command(cmd: str, args: list[str]):
     # NOTE: i hate python :(
     if commands.get(cmd) is None:
         log.debug('command not found')
-        return None
+        return None, args
 
     # check zero level for callable (ex: "log", ...)
     if not isinstance(commands[cmd], dict):
-        return commands[cmd]
+        return commands[cmd], args
 
     # check first level for args[0] (ex: "get", "clear")
     for key, value in commands[cmd].items():
         if args[0] == key:
             if not isinstance(value, dict):
-                return value
+                return value, args[1:]
 
             # check second level for args[1] (ex: "enable", "disable")
             for key, value in value.items():
@@ -76,7 +76,7 @@ def get_command(cmd: str, args: list[str]):
                         break
 
                     if key == args[1]:
-                        return value
+                        return value, args[2:]
 
     return None
 
@@ -151,7 +151,7 @@ def request_handler(req: str):
         except ValueError:
             pass
 
-        command = get_command(cmd, args)
+        command, args = get_command(cmd, args)
         log.debug(
             f'running command: {cmd} {args} (valid: {command is not None})')
 
