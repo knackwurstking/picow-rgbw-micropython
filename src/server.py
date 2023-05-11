@@ -28,13 +28,14 @@ def serve(sock: socket.socket, handler_function):
         client = sock.accept()[0]
 
         try:
-            data = str(client.recv(1024)).strip()
+            data: str = client.recv(1024).decode("utf-8").strip()
             resp = handler_function(data)
 
             if resp is not None:
                 log.debug(f"got response: {resp}")
                 client.send(resp)
         except Exception as err:
+            # FIXME: "'module' object has no attribute 'access'" (on command 'log get;')
             log.error(f"exception: {err}")
         finally:
             client.close()

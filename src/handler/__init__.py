@@ -55,6 +55,7 @@ commands = {
 def get_command(cmd: str, args: list[str]):
     # NOTE: i hate python :(
     if commands.get(cmd) is None:
+        log.debug('command not found')
         return None
 
     # check zero level for callable (ex: "log", ...)
@@ -62,7 +63,6 @@ def get_command(cmd: str, args: list[str]):
         return commands[cmd]
 
     # check first level for args[0] (ex: "get", "clear")
-    # FIXME: does not find commands (ex: "log get")
     for key, value in commands[cmd].items():
         if args[0] == key:
             if not isinstance(value, dict):
