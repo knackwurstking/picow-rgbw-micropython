@@ -119,6 +119,7 @@ def request_handler(req: str) -> None | str:
 
     Get disk usage info (`<used> <free>`)
     >>> info disk-usage
+    @TODO ...
 
     Get device logs
     >>> log get
