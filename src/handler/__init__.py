@@ -1,21 +1,21 @@
 from typing import Callable
 
 import log
-from handler.device import device_pwm_freq
-from handler.device import device_pwm_range
-from handler.device import device_server_get
-from handler.device import device_server_set
-from handler.info import info_disk_usage
-from handler.info import info_temp
-from handler.log import log_clear
-from handler.log import log_debug_disable
-from handler.log import log_debug_enable
-from handler.log import log_get
-from handler.rgbw import rgbw_color_get
-from handler.rgbw import rgbw_color_set
-from handler.rgbw import rgbw_gp_get
-from handler.rgbw import rgbw_gp_set
-from handler.version import version
+from handler._device import device_pwm_freq
+from handler._device import device_pwm_range
+from handler._device import device_server_get
+from handler._device import device_server_set
+from handler._info import info_disk_usage
+from handler._info import info_temp
+from handler._log import log_clear
+from handler._log import log_debug_disable
+from handler._log import log_debug_enable
+from handler._log import log_get
+from handler._rgbw import rgbw_color_get
+from handler._rgbw import rgbw_color_set
+from handler._rgbw import rgbw_gp_get
+from handler._rgbw import rgbw_gp_set
+from handler._version import version
 
 commands: dict[
     str,

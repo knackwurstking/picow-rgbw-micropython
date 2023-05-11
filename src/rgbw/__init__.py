@@ -81,6 +81,3 @@ def load() -> None:
                 pin = Pin(color, gp_pin)
                 pin.set_duty_cycle(duty)
                 pins[color] = pin
-
-
-load()

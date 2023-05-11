@@ -1,6 +1,7 @@
 import handler
 import log
 import machine
+import rgbw
 import server
 import utime as time
 import wifi
@@ -8,6 +9,9 @@ from picozero import pico_led
 
 
 try:
+    rgbw.load()
+    config.load()
+
     wifi.start()
 
     pico_led.on()
