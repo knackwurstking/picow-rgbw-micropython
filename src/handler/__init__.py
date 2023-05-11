@@ -1,5 +1,3 @@
-from typing import Callable
-
 import log
 from handler._device import device_pwm_freq
 from handler._device import device_pwm_range
@@ -17,19 +15,7 @@ from handler._rgbw import rgbw_gp_get
 from handler._rgbw import rgbw_gp_set
 from handler._version import version
 
-commands: dict[
-    str,
-    dict[
-        str,
-        dict[
-            str,
-            dict[
-                str,
-                Callable[[list[str]], None | str]
-            ] | Callable[[list[str]], None | str]
-        ] | Callable[[list[str]], None | str]
-    ] | Callable[[list[str]], None | str]
-] = {
+commands = {
     "rgbw": {
         "color": {
             "get": rgbw_color_get,
@@ -66,7 +52,7 @@ commands: dict[
 }
 
 
-def get_command(cmd: str, args: list[str]) -> None | Callable[[list[str]], None | str]:
+def get_command(cmd: str, args: list[str]):
     # NOTE: i hate python :(
     if commands.get(cmd) is None:
         return None
@@ -76,6 +62,7 @@ def get_command(cmd: str, args: list[str]) -> None | Callable[[list[str]], None 
         return commands[cmd]
 
     # check first level for args[0] (ex: "get", "clear")
+    # FIXME: does not find commands (ex: "log get")
     for key, value in commands[cmd].items():
         if args[0] == key:
             if not isinstance(value, dict):
@@ -94,7 +81,7 @@ def get_command(cmd: str, args: list[str]) -> None | Callable[[list[str]], None 
     return None
 
 
-def request_handler(req: str) -> None | str:
+def request_handler(req: str):
     """TCP request handler...
 
     Each command is separated with a '\\n' or a ';'
@@ -152,7 +139,7 @@ def request_handler(req: str) -> None | str:
     commands_to_run: list[str] = []
     for part in req.split("\n"):
         for cmd in part.split(";"):
-            commands_to_run.append(cmd)
+            commands_to_run.append(cmd.strip())
 
     # split command on space(s) " "
     for cmd in commands_to_run:
@@ -164,7 +151,8 @@ def request_handler(req: str) -> None | str:
         except ValueError:
             pass
 
-        log.debug(f"running command: {args}")
-
         command = get_command(cmd, args)
+        log.debug(
+            f'running command: {cmd} {args} (valid: {command is not None})')
+
         return command(args) if command is not None else None
