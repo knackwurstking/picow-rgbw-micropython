@@ -12,7 +12,7 @@ DEVICE: str = "picow"
 LANGUAGE: str = "micropython"
 VERSION: str = "0.0.1"
 
-PORT: int = 80
+PORT: int = 8888
 
 SERVER_UPDATE_PATH: str = "/api/v1/picow"
 SERVER: str = ""
