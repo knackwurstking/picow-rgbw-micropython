@@ -12,7 +12,7 @@ DEVICE: str = "picow"
 LANGUAGE: str = "micropython"
 VERSION: str = "0.0.1"
 
-PORT: int = 80
+PORT: int = 8888
 
 SERVER_UPDATE_PATH: str = "/api/v1/picow"
 SERVER: str = ""
@@ -22,7 +22,7 @@ PWM_DUTY_MIN = 0
 PWM_DUTY_MAX = 100
 
 
-def register_to_server(ip: str) -> None:
+def register_to_server(ip):
     """..."""
     if SERVER == "":
         return
@@ -31,7 +31,7 @@ def register_to_server(ip: str) -> None:
                   json={"addr": f"{ip}:{PORT}"})
 
 
-def save() -> None:
+def save():
     """..."""
     if SERVER == "":
         return
@@ -40,7 +40,7 @@ def save() -> None:
         file.write(SERVER)
 
 
-def load() -> None:
+def load():
     """..."""
     global SERVER
 

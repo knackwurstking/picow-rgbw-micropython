@@ -1,11 +1,10 @@
-import os
-
+import uos as os
 from picozero import pico_temp_sensor
 
 
 def info_temp(_args: list[str]) -> str:
     """..."""
-    return f"{pico_temp_sensor.temp}"
+    return f"{pico_temp_sensor.temp}\n"
 
 
 def info_disk_usage(_args: list[str]) -> str:
@@ -20,4 +19,4 @@ def info_disk_usage(_args: list[str]) -> str:
     used = (block_size * total_blocks) - (block_size * free_blocks)
     free = block_size * free_blocks
 
-    return f"{used} {free}"
+    return f"{used} {free}\n"

@@ -1,6 +1,5 @@
 import gc
 import socket
-from typing import Callable
 
 import config
 import log
@@ -16,8 +15,12 @@ def create() -> socket.socket:
     return sock
 
 
-def serve(sock, handler: Callable[[str], None | str]) -> None:
-    """..."""
+def serve(sock: socket.socket, handler_function):
+    """
+
+    sock: socket.socket
+    handler_function: (str) -> None | str
+    """
     while True:
         gc.collect()
 
@@ -25,8 +28,9 @@ def serve(sock, handler: Callable[[str], None | str]) -> None:
         client = sock.accept()[0]
 
         try:
-            resp = handler(str(client.recv(1024)))
-            log.debug(f"got response: {resp}")
+            data: str = client.recv(1024).decode("utf-8").strip()
+            resp = handler_function(data)
+
             if resp is not None:
                 client.send(resp)
         except Exception as err:

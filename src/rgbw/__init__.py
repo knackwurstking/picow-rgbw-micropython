@@ -19,10 +19,10 @@ class Pin:
         self.pwm.freq(config.PWM_FREQ)
         self.set_duty_cycle(0)
 
-    def set_duty_cycle(self, value: int) -> None:
+    def set_duty_cycle(self, duty: int):
         """..."""
-        self.pwm.duty_u16(int((1 - (value / config.PWM_DUTY_MAX)) * U16_MAX))
-        self.current_duty = value
+        self.pwm.duty_u16(int((1 - (duty / config.PWM_DUTY_MAX)) * U16_MAX))
+        self.current_duty = duty
 
     def get_duty_cycle(self) -> int:
         """..."""
@@ -32,7 +32,7 @@ class Pin:
 pins: dict[str, Pin] = {}
 
 
-def add(color: str, pin: int) -> None:
+def add(color: str, pin: int):
     """..."""
     if color in pins:
         remove(color)
@@ -45,7 +45,7 @@ def get(color: str) -> None | Pin:
     return None if color not in pins else pins[color]
 
 
-def remove(color: str) -> None:
+def remove(color: str):
     """..."""
     if color not in pins:
         return
@@ -54,7 +54,7 @@ def remove(color: str) -> None:
     del pins[color]
 
 
-def save() -> None:
+def save():
     """..."""
     with open("rgbw.json", "w", encoding="utf-8") as file:
         # NOTE: tuple: color, pin, duty
