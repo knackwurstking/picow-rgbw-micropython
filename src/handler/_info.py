@@ -9,7 +9,6 @@ def info_temp(_args: list[str]) -> str:
 
 def info_disk_usage(_args: list[str]) -> str:
     """..."""
-    # FIXME: this is not working...
     disk = os.statvfs("/")
 
     block_size = disk[0]
