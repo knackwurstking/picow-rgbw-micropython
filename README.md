@@ -23,16 +23,6 @@ following dependencies
 - micropython-contextlib
 - picozero
 
-@TODO: ...
-
-- copy pico firmware do pico
-- start thonny ide
-- copy file over to the pico device
-- edit config.py, add ssid and password for wifi router
-- install package `micropython-contextlib`
-- install package `picozero`
-- run...
-
 ## Commands (Examples)
 
 ```text
@@ -58,6 +48,7 @@ Get device temperature
 
 Get disk usage info (`<used> <free>`)
 >>> info disk-usage
+286720 581632
 
 Get device logs
 >>> log get
