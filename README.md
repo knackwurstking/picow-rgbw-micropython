@@ -81,7 +81,5 @@ http://192.168.178.20:50833
 
 ## TODOs
 
-- [ ] README: Add a getting started section
-- [x] Adding debug log (enable and disable in config.py)
-- [x] rewrite server (pure tcp server for data transfer via json data?)
-      (should be debuggable via telnet client)
+- [ ] add motion sensor for auto control lights (question: how many threads
+      can i start on a picow?)
