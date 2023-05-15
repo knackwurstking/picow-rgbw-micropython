@@ -1,7 +1,7 @@
-# picow-rgbw
+# picow-rgbw-micropython
 
 <!--toc:start-->
-- [picow-rgbw](#picow-rgbw)
+- [picow-rgbw-micropython](#picow-rgbw-micropython)
   - [Getting Started](#getting-started)
     - [Dependencies](#dependencies)
   - [Commands (Examples)](#commands-examples)
