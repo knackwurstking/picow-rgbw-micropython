@@ -2,26 +2,28 @@
 
 <!--toc:start-->
 - [picow-rgbw-micropython](#picow-rgbw-micropython)
+  - [(Thonny) Dependencies](#thonny-dependencies)
   - [Getting Started](#getting-started)
-    - [Dependencies](#dependencies)
   - [Commands (Examples)](#commands-examples)
   - [TODOs](#todos)
 <!--toc:end-->
 
 Control rgbw stripes (pwm mode)
 
-## Getting Started
-
-> Have a look here: [https://projects.raspberrypi.org/en/projects/get-started-pico-w/1]  
-> NOTE: in [src/config.py](src/config.py) put in your wifi credentials (`SSID` and `PASSWORD`)
-
-### Dependencies
+## (Thonny) Dependencies
 
 In Thonny IDE, click on Tools > "Manage Packages" and install the
 following dependencies
 
 - micropython-contextlib
 - picozero
+
+## Getting Started
+
+> Have a look here: [https://projects.raspberrypi.org/en/projects/get-started-pico-w/1]  
+> NOTE: in [src/config.py](src/config.py) put in your wifi credentials (`SSID` and `PASSWORD`)
+
+@TODO: ...
 
 ## Commands (Examples)
 
