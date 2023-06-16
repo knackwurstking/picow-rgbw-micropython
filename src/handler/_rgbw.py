@@ -60,4 +60,6 @@ def rgbw_gp_set(args: list[str]) -> None:
         rgbw.remove(color)
         rgbw.add(color, pins_rgbw[idx])
 
+    rgbw.save()
+
     return None
