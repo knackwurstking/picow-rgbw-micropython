@@ -9,8 +9,6 @@ U16_MAX = 65535
 
 
 class Pin:
-    """..."""
-
     def __init__(self, color: str, pin: int):
         self.current_duty = config.PWM_DUTY_MIN  # 0-100%
         self.color = color
@@ -20,12 +18,10 @@ class Pin:
         self.set_duty_cycle(0)
 
     def set_duty_cycle(self, duty: int):
-        """..."""
         self.pwm.duty_u16(int((1 - (duty / config.PWM_DUTY_MAX)) * U16_MAX))
         self.current_duty = duty
 
     def get_duty_cycle(self) -> int:
-        """..."""
         return self.current_duty
 
 
@@ -33,7 +29,6 @@ pins: dict[str, Pin] = {}
 
 
 def add(color: str, pin: int):
-    """..."""
     if color in pins:
         remove(color)
 
@@ -41,12 +36,10 @@ def add(color: str, pin: int):
 
 
 def get(color: str) -> None | Pin:
-    """..."""
     return None if color not in pins else pins[color]
 
 
 def remove(color: str):
-    """..."""
     if color not in pins:
         return
 
@@ -55,7 +48,6 @@ def remove(color: str):
 
 
 def save():
-    """..."""
     with open("rgbw.json", "w", encoding="utf-8") as file:
         # NOTE: tuple: color, pin, duty
         pins_data: list[tuple[str, int, int]] = []
@@ -69,7 +61,6 @@ def save():
 
 
 def load() -> None:
-    """..."""
     log.debug("load 'rgbw.json' data (if exists)")
 
     with contextlib.suppress(Exception):

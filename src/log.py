@@ -14,13 +14,11 @@ def clear():
 
 
 def log(message):
-    """..."""
     with open("pico.log", "a", encoding="utf-8") as file:
         file.write(message + "\n")
 
 
 def debug(message):
-    """..."""
     if not config.DEBUG:
         return
 
@@ -28,5 +26,4 @@ def debug(message):
 
 
 def error(message):
-    """..."""
     log("ERROR:" + message)

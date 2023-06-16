@@ -3,12 +3,10 @@ from picozero import pico_temp_sensor
 
 
 def info_temp(_args: list[str]) -> str:
-    """..."""
     return f"{pico_temp_sensor.temp}\n"
 
 
 def info_disk_usage(_args: list[str]) -> str:
-    """..."""
     disk = os.statvfs("/")
 
     block_size = disk[0]

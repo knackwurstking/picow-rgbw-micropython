@@ -23,7 +23,6 @@ PWM_DUTY_MAX = 100
 
 
 def register_to_server(ip):
-    """..."""
     if SERVER == "":
         return
 
@@ -32,7 +31,6 @@ def register_to_server(ip):
 
 
 def save():
-    """..."""
     if SERVER == "":
         return
 
@@ -41,7 +39,6 @@ def save():
 
 
 def load():
-    """..."""
     global SERVER
 
     log.debug("load 'server.json' data (if exists)")

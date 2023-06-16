@@ -3,7 +3,6 @@ import rgbw
 
 
 def rgbw_color_get(_args: list[str]) -> str:
-    """..."""
     pins_color: list[str] = ["-1", "-1", "-1", "-1"]
 
     for idx, color in enumerate(["r", "g", "b", "w"]):
@@ -14,7 +13,6 @@ def rgbw_color_get(_args: list[str]) -> str:
 
 
 def rgbw_color_set(args: list[str]) -> None:
-    """..."""
     pins_color: list[int] = [0, 0, 0, 0]
 
     # parse args
@@ -36,7 +34,6 @@ def rgbw_color_set(args: list[str]) -> None:
 
 
 def rgbw_gp_get(_args: list[str]) -> str:
-    """..."""
     pins_rgbw: list[str] = ["-1", "-1", "-1", "-1"]
 
     for idx, color in enumerate(["r", "g", "b", "w"]):
