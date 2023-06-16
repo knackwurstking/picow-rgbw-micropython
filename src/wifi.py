@@ -6,6 +6,11 @@ import network
 import utime as time
 
 
+def close(wlan):
+    wlan.active(False)
+    time.sleep(1)
+
+
 def connect(wlan, skip=False):
     log.debug("Connecting wlan...")
 
@@ -16,10 +21,11 @@ def connect(wlan, skip=False):
     if skip:
         return wlan
 
-    while not wlan.isconnected():
-        if not wait_for_wlan_connection(wlan):
-            log.debug("...connection to wlan failed, try re-connecting...")
-            wlan = connect(network.WLAN(network.STA_IF))
+    if not wait(wlan) and not wlan.isconnected():
+        log.debug(f"...connection to wlan failed, status: {wlan.status()}, try re-connecting...")  # noqa: E501
+        close(wlan)
+        wlan = connect(network.WLAN(network.STA_IF))
+        return
 
     log.debug("...connection established.")
 
@@ -34,7 +40,7 @@ def connect(wlan, skip=False):
     return wlan
 
 
-def wait_for_wlan_connection(wlan):
+def wait(wlan):
     count = 0
     while wlan.isconnected() is False:
         time.sleep(1)
@@ -49,6 +55,7 @@ def wait_for_wlan_connection(wlan):
 def t_wifi(wlan: network.WLAN):
     while True:
         if not wlan.isconnected():
+            close(wlan)
             wlan = connect(network.WLAN(network.STA_IF))
         else:
             time.sleep(5)
