@@ -7,6 +7,8 @@ import utime as time
 
 
 def close(wlan):
+    log.debug("...close wlan")
+
     wlan.active(False)
     time.sleep(1)
 
