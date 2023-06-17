@@ -1,16 +1,23 @@
 # picow-rgbw-micropython
 
-<!--toc:start-->
-- [picow-rgbw-micropython](#picow-rgbw-micropython)
-  - [(Thonny) Dependencies](#thonny-dependencies)
-  - [Getting Started](#getting-started)
-  - [Commands (Examples)](#commands-examples)
-  - [TODOs](#todos)
-<!--toc:end-->
-
 Control rgbw stripes (pwm mode)
 
-## (Thonny) Dependencies
+##  1. <a name='Index'></a>Index
+
+<!-- vscode-markdown-toc -->
+* 1. [Index](#Index)
+* 2. [(Thonny) Dependencies](#ThonnyDependencies)
+* 3. [Getting Started](#GettingStarted)
+* 4. [Commands (Examples)](#CommandsExamples)
+* 5. [TODOs](#TODOs)
+
+<!-- vscode-markdown-toc-config
+	numbering=true
+	autoSave=true
+	/vscode-markdown-toc-config -->
+<!-- /vscode-markdown-toc --># picow-rgbw-micropython
+
+##  2. <a name='ThonnyDependencies'></a>(Thonny) Dependencies
 
 In Thonny IDE, click on Tools > "Manage Packages" and install the
 following dependencies
@@ -18,14 +25,14 @@ following dependencies
 - micropython-contextlib
 - picozero
 
-## Getting Started
+##  3. <a name='GettingStarted'></a>Getting Started
 
 > Have a look here: [https://projects.raspberrypi.org/en/projects/get-started-pico-w/1]  
 > NOTE: in [src/config.py](src/config.py) put in your wifi credentials (`SSID` and `PASSWORD`)
 
 @TODO: ...
 
-## Commands (Examples)
+##  4. <a name='CommandsExamples'></a>Commands (Examples)
 
 ```text
 Each command is separated with a '\\n' or a ';'
@@ -79,9 +86,8 @@ Get/Set the web server for registration on after boot
 http://192.168.178.20:50833
 ```
 
-## TODOs
+##  5. <a name='TODOs'></a>TODOs
 
 - [ ] fix gp pins caching (json)
 - [ ] fix internet connection problems sometimes (check logs and thread)
-- [ ] add motion sensor for auto control lights (question: how many threads
-      can i start on a picow?)
+- [ ] add motion sensor for auto control lights (question: how many threads can i start on a picow?)
