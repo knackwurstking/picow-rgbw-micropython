@@ -82,6 +82,6 @@ http://192.168.178.20:50833
 ## TODOs
 
 - [ ] fix gp pins caching (json)
-- [ ] fix internect connection problems sometimes (check logs and thread)
+- [ ] fix internet connection problems sometimes (check logs and thread)
 - [ ] add motion sensor for auto control lights (question: how many threads
       can i start on a picow?)
